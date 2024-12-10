@@ -71,7 +71,7 @@
   }
 
   body {
-    @apply font-bh-regular bg-background text-foreground;
+    @apply bg-background font-bh-regular text-foreground;
   }
 
   .external-link {
