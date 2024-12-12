@@ -3,7 +3,7 @@ import { Searchbar } from "@/components/searchbar";
 
 export default function Posts() {
   return (
-    <div className="board-content">
+    <div className="board-content flex-1">
       <div className="flex flex-col items-center gap-y-8">
         <Header
           title="Writings from our team"

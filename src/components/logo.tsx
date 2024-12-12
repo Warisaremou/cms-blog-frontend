@@ -5,7 +5,7 @@ export default function Logo() {
   return (
     <Link
       to={routes.index}
-      className="text-xl font-bold text-primary line-through focus-visible:outline-none focus-visible:ring-0"
+      className="text-xl font-bh-bold text-primary line-through focus-visible:outline-none focus-visible:ring-0"
     >
       BH
     </Link>

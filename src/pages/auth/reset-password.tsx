@@ -1,3 +1,13 @@
+import { SharedFormCard } from "@/components/cards";
+import { ResetPasswordForm } from "@/components/forms";
+
 export default function ResetPassword() {
-  return <div>ResetPassword</div>;
+  return (
+    <SharedFormCard
+      title="Reset Your Password"
+      description="Set your new password"
+    >
+      <ResetPasswordForm />
+    </SharedFormCard>
+  );
 }

@@ -12,7 +12,7 @@ export default function BoardLayout() {
       <nav className="flex flex-row items-center justify-between py-4">
         <Logo />
 
-        <ul className="flex flex-row items-center gap-x-1 md:gap-x-4">
+        <ul className="flex flex-row items-center gap-x-1 md:gap-x-4 w-full justify-center">
           {siteConfig.mainNav.map((item, index) => (
             <CustomLink
               item={item}
