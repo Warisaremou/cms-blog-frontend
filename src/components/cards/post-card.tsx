@@ -1,15 +1,18 @@
+import postImage from "@/assets/images/blog-image.avif";
+import userImage from "@/assets/images/user-avatar.png";
 import { Badge } from "@/components/ui/badge";
+import { routes } from "@/lib/routes";
 import { Link } from "react-router";
 
 export default function PostCard() {
   return (
     <Link
-      to="/blogs/2132135"
+      to={`${routes.posts.index}/123`}
       className="group relative flex flex-col gap-y-4 rounded-2xl border border-slate-200/50 bg-background p-2.5 transition-colors duration-200 ease-in-out hover:bg-secondary/70 focus-visible:outline-none"
     >
       <div className="h-56 overflow-hidden rounded-xl">
         <img
-          src="/blog-image.avif"
+          src={postImage}
           alt="Blog Image"
           className="size-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
         />
@@ -33,12 +36,12 @@ export default function PostCard() {
           <div className="flex items-center gap-1.5">
             <div className="size-8 overflow-hidden rounded-full bg-slate-300">
               <img
-                src="/user-avatar.png"
+                src={userImage}
                 alt="user-avatar"
                 className="size-full object-cover"
               />
             </div>
-            <span>waris08</span>
+            <span>ikk08</span>
           </div>
           <div className="size-1.5 rounded-full bg-primary/30" />
           <span>19 Jun, 2024</span>

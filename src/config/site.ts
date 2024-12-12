@@ -11,7 +11,7 @@ export const siteConfig = {
       href: routes.index,
     },
     {
-      title: "Blogs",
+      title: "Posts",
       href: routes.posts.index,
     },
   ] satisfies MainNavItem[],
