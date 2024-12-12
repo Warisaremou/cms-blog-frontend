@@ -7,7 +7,7 @@ import { Link, Outlet } from "react-router";
 
 export default function BoardLayout() {
   return (
-    <div className="container flex flex-col h-full">
+    <div className="container flex flex-col min-h-screen">
       {/* Navbar */}
       <nav className="flex flex-row items-center justify-between py-4">
         <Logo />
@@ -40,12 +40,10 @@ export default function BoardLayout() {
       </nav>
 
       {/* Children */}
-      <div className="py-12">
-        <Outlet />
-      </div>
+      <Outlet />
 
       {/* Footer */}
-      <div className="flex items-center justify-between border-t border-secondary py-5">
+      <div className="flex items-center justify-between border-t border-secondary py-8">
         <Logo />
         <h4 className="text-sm">©2024_All Rights Reserved</h4>
       </div>
