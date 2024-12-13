@@ -14,7 +14,7 @@ export default function Home() {
           asChild
           className="border border-muted-foreground/15 max-sm:hidden"
         >
-          <Link to={routes.posts.addPost}>Share a Post</Link>
+          <Link to={`/posts/${routes.posts.addPost}`}>Share a Post</Link>
         </Button>
       </Header>
     </div>

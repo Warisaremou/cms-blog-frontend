@@ -3,6 +3,7 @@ import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
 import { AddPost, EditPost, Post, Posts } from "@/pages/posts";
+import { Profile } from "@/pages/profile";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 function App() {
@@ -36,6 +37,12 @@ function App() {
                 element={<EditPost />}
               />
             </Route>
+            <Route path={routes.profile.index}>
+              <Route
+                index
+                element={<Profile />}
+              />
+            </Route>
           </Route>
           <Route element={<AuthLayout />}>
             <Route
@@ -55,6 +62,7 @@ function App() {
               element={<ResetPassword />}
             />
           </Route>
+
           <Route
             path="*"
             element={<NotFound />}
