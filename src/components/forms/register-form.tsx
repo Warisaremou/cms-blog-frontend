@@ -10,6 +10,30 @@ export default function RegisterForm() {
     <form className="flex flex-col gap-y-5 px-2 md:px-8">
       <div className="space-y-3">
         <div className="form-input">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            id="username"
+            placeholder="Your username"
+          />
+        </div>
+
+        <div className="form-input">
+          <Label htmlFor="surname">Surname</Label>
+          <Input
+            id="surname"
+            placeholder="Your surname"
+          />
+        </div>
+
+        <div className="form-input">
+          <Label htmlFor="firstname">Firstname</Label>
+          <Input
+            id="firstname"
+            placeholder="Your firstname"
+          />
+        </div>
+
+        <div className="form-input">
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
@@ -19,26 +43,10 @@ export default function RegisterForm() {
         </div>
 
         <div className="form-input">
-          <Label htmlFor="fullname">Fullname</Label>
-          <Input
-            id="fullname"
-            placeholder="Your fullname"
-          />
-        </div>
-
-        <div className="form-input">
           <Label htmlFor="password">Password</Label>
           <PasswordInput
             id="password"
             placeholder="Password"
-          />
-        </div>
-
-        <div className="form-input">
-          <Label htmlFor="confirm-password">Confirm Password</Label>
-          <PasswordInput
-            id="confirm-password"
-            placeholder="Confirm Password"
           />
         </div>
       </div>
@@ -55,7 +63,7 @@ export default function RegisterForm() {
         Already have an account ?
         <Link
           className="external-link ml-1"
-          to={routes.auth.login}
+          to={`/${routes.auth.login}`}
         >
           sign in
         </Link>

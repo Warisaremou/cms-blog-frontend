@@ -30,7 +30,7 @@ export default function LoginForm() {
       <div className="flex justify-end">
         <Link
           className="external-link"
-          to={routes.auth.forgotPassword}
+          to={`/${routes.auth.forgotPassword}`}
         >
           Forgot password ?
         </Link>
@@ -48,7 +48,7 @@ export default function LoginForm() {
         Don&apos;t have an account ?
         <Link
           className="external-link ml-1"
-          to={routes.auth.register}
+          to={`/${routes.auth.register}`}
         >
           sign up now
         </Link>

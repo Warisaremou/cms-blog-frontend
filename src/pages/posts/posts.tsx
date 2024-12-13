@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import { Searchbar } from "@/components/searchbar";
+import PostsListSection from "@/components/sections/posts-list-section";
 
 export default function Posts() {
   return (
@@ -11,6 +12,8 @@ export default function Posts() {
         />
         <Searchbar placeholder="Search for a post" />
       </div>
+      {/* Posts List Section */}
+      <PostsListSection />
     </div>
   );
 }

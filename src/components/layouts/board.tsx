@@ -1,9 +1,8 @@
 import CustomLink from "@/components/custom-link";
 import Logo from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import UserProfileDropdown from "@/components/user-profile-dropdown";
 import { siteConfig } from "@/config/site";
-import { routes } from "@/lib/routes";
-import { Link, Outlet } from "react-router";
+import { Outlet } from "react-router";
 
 export default function BoardLayout() {
   return (
@@ -22,7 +21,7 @@ export default function BoardLayout() {
         </ul>
 
         <div className="flex gap-2">
-          <Button
+          {/* <Button
             variant="default"
             asChild
           >
@@ -34,8 +33,8 @@ export default function BoardLayout() {
             className="border border-muted-foreground/15 max-sm:hidden"
           >
             <Link to={routes.auth.login}>Login</Link>
-          </Button>
-          {/* <UserProfileDropdown /> */}
+          </Button> */}
+          <UserProfileDropdown />
         </div>
       </nav>
 
