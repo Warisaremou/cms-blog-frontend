@@ -24,11 +24,11 @@ export default function PostCard() {
           <Badge variant="secondary">+1</Badge>
         </div>
         <div className="flex flex-col gap-y-1">
-          <h3 className="text-xl font-semibold">Grid system for better design user interface</h3>
+          <h3 className="text-xl font-semibold line-clamp-2">Grid system for better design user interface</h3>
         </div>
         <div className="flex items-center gap-x-2.5 text-sm justify-between font-medium text-primary/60">
           <div className="flex items-center gap-1.5">
-            <div className="size-8 overflow-hidden rounded-full bg-slate-300">
+            <div className="size-8 overflow-hidden rounded-full bg-accent border">
               <img
                 src={userImage}
                 alt="user-avatar"

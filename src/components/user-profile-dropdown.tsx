@@ -1,3 +1,4 @@
+import avatar from "@/assets/images/user-avatar.png";
 import LogoutButton from "@/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,7 @@ export default function UserProfileDropdown() {
         >
           <Avatar className="border">
             <AvatarImage
-              src={`https://api.dicebear.com/7.x/lorelei/svg?seed=johndoe@gmail.com}`}
+              src={avatar}
               alt={`johndoe86`}
             />
             <AvatarFallback>{"jogn".substring(0, 2).toUpperCase()}</AvatarFallback>
