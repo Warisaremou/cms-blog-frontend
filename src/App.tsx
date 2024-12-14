@@ -1,4 +1,5 @@
 import { AuthLayout, BoardLayout } from "@/components/layouts";
+import QueryProvider from "@/lib/providers/query-client-provider";
 import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
@@ -8,7 +9,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 function App() {
   return (
-    <div>
+    <QueryProvider>
       <Router>
         <Routes>
           <Route
@@ -69,7 +70,7 @@ function App() {
           />
         </Routes>
       </Router>
-    </div>
+    </QueryProvider>
   );
 }
 
