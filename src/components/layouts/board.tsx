@@ -6,7 +6,7 @@ import { Outlet } from "react-router";
 
 export default function BoardLayout() {
   return (
-    <div className="container flex flex-col min-h-screen">
+    <div className="container flex flex-col min-h-screen w-full">
       {/* Navbar */}
       <nav className="flex flex-row items-center justify-between py-4">
         <Logo />
