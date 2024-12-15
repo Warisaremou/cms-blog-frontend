@@ -8,7 +8,7 @@ import { ReactNode, useEffect, useState } from "react";
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userData, setUserData] = useState<User>(defaultUserData);
-  const { getItem, removeItem } = useLocalStorage();
+  const { getItem } = useLocalStorage();
   const accessToken = getItem("accessToken");
 
   useEffect(() => {
@@ -20,11 +20,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           setUserData(response.data);
         })
         .catch(() => {
-          removeItem("accessToken");
+          // TODO: To be reviewed
+          // removeItem("accessToken");
           setIsAuthenticated(false);
         });
     }
-  }, [accessToken, removeItem]);
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider
