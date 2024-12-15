@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 
 export default function Posts() {
   const { toast } = useToast();
+  const [searchKey, setSearchKey] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [posts, setPosts] = useState<PostList>({
     data: [],
     meta: {
@@ -15,7 +17,6 @@ export default function Posts() {
       per_page: 6,
     },
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   function fetchPosts() {
     getAllPosts()
@@ -44,10 +45,16 @@ export default function Posts() {
           title="Writings from our team"
           description="A center for all our ressources & insights"
         />
-        <Searchbar placeholder="Search for a post" />
+        <Searchbar
+          placeholder="Search for a post"
+          value={searchKey}
+          onChange={(e) => setSearchKey(e.target.value)}
+        />
       </div>
       {/* Posts List Section */}
       <PostsListSection
+        searchKey={searchKey}
+        setSearchKey={setSearchKey}
         isLoading={isLoading}
         posts={posts}
       />

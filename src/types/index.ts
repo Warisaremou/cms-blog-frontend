@@ -84,3 +84,13 @@ export interface PostList {
   data: Post[];
   meta: Meta;
 }
+
+// --------- CATEGORIES TYPES --------- //
+export interface Category {
+  id_category: string;
+  name: string;
+}
+
+export interface CategoryList {
+  data: Category[];
+}
