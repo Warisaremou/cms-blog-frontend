@@ -1,3 +1,7 @@
+import { loginSchema, registerSchema } from "@/lib/validations/auth";
+import { Dispatch, SetStateAction } from "react";
+import { z } from "zod";
+
 export interface NavItem {
   title: string;
   href: string;
@@ -14,18 +18,26 @@ export interface NavItemWithOptionalChildren extends NavItem {
 export type MainNavItem = NavItemWithOptionalChildren;
 
 // --------- AUTH TYPES --------- //
-export type registerCredentials = {
+export interface User {
+  id_user: string;
   username: string;
   surname: string;
   firstname: string;
   email: string;
-  password: string;
-};
+  address: string | null;
+  avatar: string | null;
+  date_of_birth: Date | null;
+  description: string;
+}
+export interface AuthContextType {
+  isAuthenticated: boolean;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  userData: User;
+}
 
-export type loginCredentials = {
-  identifier: string;
-  password: string;
-};
+export type registerCredentials = z.infer<typeof registerSchema>;
+
+export type loginCredentials = z.infer<typeof loginSchema>;
 
 export type forgotPasswordCredentials = {
   email: string;

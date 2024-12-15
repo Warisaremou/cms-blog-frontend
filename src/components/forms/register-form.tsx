@@ -2,52 +2,157 @@ import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import api from "@/lib/axios-instance";
 import { routes } from "@/lib/routes";
-import { Link } from "react-router";
+import { registerSchema } from "@/lib/validations/auth";
+import { registerCredentials } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+import InputError from "../input-error";
 
 export default function RegisterForm() {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<registerCredentials>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      username: "",
+      surname: "",
+      firstname: "",
+      email: "",
+      password: "",
+    },
+    mode: "all",
+  });
+
+  const onSubmit = async (payload: registerCredentials) => {
+    setIsLoading(true);
+
+    await api
+      .post("/auth/register", payload)
+      .then(async (response) => {
+        toast({
+          title: response.data.message,
+        });
+        setTimeout(() => {
+          setIsLoading(false);
+          navigate(`/${routes.auth.login}`);
+        }, 1500);
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
+        setIsLoading(false);
+      });
+    // mutate(
+    //   {
+    //     ...payload,
+    //   },
+    //   {
+    //     onSuccess: async (data: any) => {
+    //       // console.log(data);
+    //       toast({
+    //         title: data.message,
+    //       });
+
+    //       setTimeout(() => {
+    //         navigate("/confirm-email");
+    //       }, 1500);
+    //     },
+    //     onError: (error: any) => {
+    //       // console.log(error);
+    //       toast({
+    //         variant: "destructive",
+    //         title: error.response.data.message ?? error.message,
+    //       });
+    //     },
+    //   },
+    // );
+  };
+
   return (
-    <form className="flex flex-col gap-y-5 px-2 md:px-8">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-y-5 px-2 md:px-8"
+    >
       <div className="space-y-3">
-        <div className="form-input">
-          <Label htmlFor="username">Username</Label>
-          <Input
-            id="username"
-            placeholder="Your username"
-          />
+        {/* Username Field */}
+        <div>
+          <div className="form-input">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              className=""
+              id="username"
+              placeholder="Your username"
+              {...register("username")}
+            />
+          </div>
+          {errors.username && <InputError errorMessage={errors.username.message} />}
         </div>
 
-        <div className="form-input">
-          <Label htmlFor="surname">Surname</Label>
-          <Input
-            id="surname"
-            placeholder="Your surname"
-          />
+        {/* Surname field */}
+        <div>
+          <div className="form-input">
+            <Label htmlFor="surname">Surname</Label>
+            <Input
+              id="surname"
+              placeholder="Your surname"
+              {...register("surname")}
+            />
+          </div>
+          {errors.surname && <InputError errorMessage={errors.surname.message} />}
         </div>
 
-        <div className="form-input">
-          <Label htmlFor="firstname">Firstname</Label>
-          <Input
-            id="firstname"
-            placeholder="Your firstname"
-          />
+        {/* Firstname field */}
+        <div>
+          <div className="form-input">
+            <Label htmlFor="firstname">Firstname</Label>
+            <Input
+              id="firstname"
+              placeholder="Your firstname"
+              {...register("firstname")}
+            />
+          </div>
+          {errors.firstname && <InputError errorMessage={errors.firstname.message} />}
         </div>
 
-        <div className="form-input">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            type="email"
-            id="email"
-            placeholder="Your email"
-          />
+        {/* Email field */}
+        <div>
+          <div className="form-input">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              placeholder="Your email"
+              {...register("email")}
+            />
+          </div>
+          {errors.email && <InputError errorMessage={errors.email.message} />}
         </div>
 
-        <div className="form-input">
-          <Label htmlFor="password">Password</Label>
-          <PasswordInput
-            id="password"
-            placeholder="Password"
-          />
+        {/* Password field */}
+        <div>
+          <div className="form-input">
+            <Label htmlFor="password">Password</Label>
+            <PasswordInput
+              id="password"
+              placeholder="Password"
+              {...register("password")}
+            />
+          </div>
+          {errors.password && <InputError errorMessage={errors.password.message} />}
         </div>
       </div>
 
@@ -55,7 +160,14 @@ export default function RegisterForm() {
         className="w-full"
         type="submit"
         size="lg"
+        disabled={isLoading}
       >
+        {isLoading && (
+          <Loader2
+            className="mr-2 size-4 animate-spin"
+            aria-hidden="true"
+          />
+        )}
         Create account
       </Button>
 

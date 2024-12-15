@@ -1,10 +1,15 @@
 import CustomLink from "@/components/custom-link";
 import Logo from "@/components/logo";
+import { Button } from "@/components/ui/button";
 import UserProfileDropdown from "@/components/user-profile-dropdown";
 import { siteConfig } from "@/config/site";
-import { Outlet } from "react-router";
+import { useAuth } from "@/contexts/auth/hook";
+import { routes } from "@/lib/routes";
+import { Link, Outlet } from "react-router";
 
 export default function BoardLayout() {
+  const { isAuthenticated, userData } = useAuth();
+
   return (
     <div className="container flex flex-col min-h-screen w-full">
       {/* Navbar */}
@@ -20,22 +25,25 @@ export default function BoardLayout() {
           ))}
         </ul>
 
-        <div className="flex gap-2">
-          {/* <Button
-            variant="default"
-            asChild
-          >
-            <Link to={routes.auth.register}>Create Account</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            asChild
-            className="border border-muted-foreground/15 max-sm:hidden"
-          >
-            <Link to={routes.auth.login}>Login</Link>
-          </Button> */}
-          <UserProfileDropdown />
-        </div>
+        {isAuthenticated ? (
+          <UserProfileDropdown userData={userData} />
+        ) : (
+          <div className="flex gap-2">
+            <Button
+              variant="default"
+              asChild
+            >
+              <Link to={routes.auth.register}>Create Account</Link>
+            </Button>
+            <Button
+              variant="ghost"
+              asChild
+              className="border border-muted-foreground/15 max-sm:hidden"
+            >
+              <Link to={routes.auth.login}>Login</Link>
+            </Button>
+          </div>
+        )}
       </nav>
 
       {/* Children */}

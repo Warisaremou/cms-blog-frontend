@@ -1,4 +1,3 @@
-import avatar from "@/assets/images/user-avatar.png";
 import LogoutButton from "@/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,10 +11,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { routes } from "@/lib/routes";
-import { User } from "lucide-react";
+import { User } from "@/types";
+import { User as UserIcon } from "lucide-react";
 import { Link } from "react-router";
 
-export default function UserProfileDropdown() {
+export default function UserProfileDropdown({ userData }: { userData: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,10 +25,10 @@ export default function UserProfileDropdown() {
         >
           <Avatar className="border">
             <AvatarImage
-              src={avatar}
-              alt={`johndoe86`}
+              src={userData.avatar!}
+              alt={userData.username}
             />
-            <AvatarFallback>{"jogn".substring(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>{userData.username.substring(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -39,8 +39,8 @@ export default function UserProfileDropdown() {
       >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">johndoe89</p>
-            <p className="text-xs leading-none text-muted-foreground">johndoe@gmail.com</p>
+            <p className="text-sm font-medium leading-none">{userData.username}</p>
+            <p className="text-xs leading-none text-muted-foreground">{userData.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -50,7 +50,7 @@ export default function UserProfileDropdown() {
             className="cursor-pointer"
           >
             <Link to={routes.profile.index}>
-              <User
+              <UserIcon
                 className="mr-2 size-4"
                 aria-hidden="true"
               />
