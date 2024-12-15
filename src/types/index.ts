@@ -17,6 +17,11 @@ export interface NavItemWithOptionalChildren extends NavItem {
 
 export type MainNavItem = NavItemWithOptionalChildren;
 
+export type Meta = {
+  page: number;
+  per_page: number;
+};
+
 // --------- AUTH TYPES --------- //
 export interface User {
   id_user: string;
@@ -64,3 +69,18 @@ export type addPostCredentials = {
   content: string;
   categories: string;
 };
+
+export interface Post {
+  id_post: string;
+  title: string;
+  content: string;
+  image: string;
+  categories: string;
+  created_at: Date;
+  user: User;
+}
+
+export interface PostList {
+  data: Post[];
+  meta: Meta;
+}

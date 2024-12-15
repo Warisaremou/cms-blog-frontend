@@ -5,7 +5,7 @@ import { Trash2 } from "lucide-react";
 export default function PostsFilter() {
   return (
     <div className="flex items-center justify-between gap-2 sm:gap-5">
-      <div className="w-full">
+      <div className="">
         <Select>
           <SelectTrigger className="w-48 gap-x-2 max-sm:w-[13rem] lg:w-52">
             <SelectValue placeholder="Filter by category" />
@@ -25,7 +25,7 @@ export default function PostsFilter() {
         className="gap-x-1"
       >
         <Trash2 className="size-4" />
-        Clear filters
+        <span className="hidden md:flex">Clear filters</span>
       </Button>
     </div>
   );
