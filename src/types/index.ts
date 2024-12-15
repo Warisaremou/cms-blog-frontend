@@ -72,12 +72,12 @@ export type addPostCredentials = {
 
 export interface Post {
   id_post: string;
+  image: string | null;
   title: string;
   content: string;
-  image: string;
-  categories: string;
-  created_at: Date;
+  categories: Category[];
   user: User;
+  created_at: Date;
 }
 
 export interface PostList {

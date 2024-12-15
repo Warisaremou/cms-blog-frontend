@@ -1,5 +1,4 @@
 import LogoutButton from "@/components/logout-button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { routes } from "@/lib/routes";
 import { User } from "@/types";
+import UserAvatar from "@/user-avatar";
 import { User as UserIcon } from "lucide-react";
 import { Link } from "react-router";
 
@@ -23,13 +23,11 @@ export default function UserProfileDropdown({ userData }: { userData: User }) {
           variant="secondary"
           className="relative size-11 rounded-full"
         >
-          <Avatar className="border">
-            <AvatarImage
-              src={userData.avatar!}
-              alt={userData.username}
-            />
-            <AvatarFallback>{userData.username.substring(0, 2).toUpperCase()}</AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            avatar={userData.avatar}
+            firstname={userData.firstname}
+            surname={userData.surname}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
