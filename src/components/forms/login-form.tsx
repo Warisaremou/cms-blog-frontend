@@ -44,11 +44,11 @@ export default function LoginForm() {
           title: response.data.message,
         });
         setItem("accessToken", response.data?.token);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
         navigate("/");
         window.location.reload();
-        // setTimeout(() => {
-        // }, 1500);
       })
       .catch((error) => {
         toast({
@@ -62,7 +62,7 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-y-5 px-2 md:px-8"
+      className="form-container"
     >
       <div className="space-y-3">
         {/* Identifier field */}
@@ -84,7 +84,7 @@ export default function LoginForm() {
             <Label htmlFor="password">Password</Label>
             <PasswordInput
               id="password"
-              placeholder="Password"
+              placeholder="Your Password"
               {...register("password")}
             />
           </div>

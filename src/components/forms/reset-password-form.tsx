@@ -2,9 +2,11 @@ import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
+// type resetPasswordFormCredentials = z.infer<typeof resetPasswordSchema>;
+
 export default function ResetPasswordForm() {
   return (
-    <form className="flex flex-col gap-y-5 px-2 md:px-8">
+    <form className="form-container">
       <div className="space-y-3">
         <div className="form-input">
           <Label htmlFor="password">Password</Label>

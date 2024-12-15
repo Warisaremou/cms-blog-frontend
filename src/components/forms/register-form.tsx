@@ -85,7 +85,7 @@ export default function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-y-5 px-2 md:px-8"
+      className="form-container"
     >
       <div className="space-y-3">
         {/* Username Field */}

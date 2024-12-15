@@ -11,8 +11,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const { getItem, removeItem } = useLocalStorage();
   const accessToken = getItem("accessToken");
 
-  // const { isLoading, isError, data, isSuccess } = useMe(accessToken !== null);
-
   useEffect(() => {
     if (accessToken) {
       setIsAuthenticated(true);
@@ -26,7 +24,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           setIsAuthenticated(false);
         });
     }
-  }, [accessToken]);
+  }, [accessToken, removeItem]);
 
   return (
     <AuthContext.Provider
