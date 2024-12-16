@@ -26,7 +26,15 @@ export default function BoardLayout() {
         </ul>
 
         {isAuthenticated ? (
-          <UserProfileDropdown userData={userData} />
+          <div className="flex gap-2">
+            <Button
+              variant="default"
+              asChild
+            >
+              <Link to={`/posts/${routes.posts.addPost}`}>Share a Post</Link>
+            </Button>
+            <UserProfileDropdown userData={userData} />
+          </div>
         ) : (
           <div className="flex gap-2">
             <Button

@@ -1,4 +1,5 @@
 import { forgotPasswordSchema, loginSchema, registerSchema } from "@/lib/validations/auth";
+import { addPostSchema } from "@/lib/validations/post";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 
@@ -63,12 +64,7 @@ export type updateUserRoleCredentials = {
 };
 
 // --------- POSTS TYPES --------- //
-export type addPostCredentials = {
-  image?: string;
-  title: string;
-  content: string;
-  categories: string;
-};
+export type addPostCredentials = z.infer<typeof addPostSchema>;
 
 export interface Post {
   id_post: string;
