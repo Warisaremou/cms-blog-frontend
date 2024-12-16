@@ -1,6 +1,7 @@
 import { AuthLayout, BoardLayout } from "@/components/layouts";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/contexts/auth/provider";
+import CategoriesProvider from "@/contexts/categories/provider";
 import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
@@ -10,69 +11,71 @@ import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route
-            path={routes.index}
-            element={<BoardLayout />}
-          >
+    <CategoriesProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
             <Route
-              index
-              element={<Home />}
-            />
-            <Route path={routes.posts.index}>
+              path={routes.index}
+              element={<BoardLayout />}
+            >
               <Route
                 index
-                element={<Posts />}
+                element={<Home />}
+              />
+              <Route path={routes.posts.index}>
+                <Route
+                  index
+                  element={<Posts />}
+                />
+                <Route
+                  path={routes.posts.getPost}
+                  element={<Post />}
+                />
+                <Route
+                  path={routes.posts.addPost}
+                  element={<AddPost />}
+                />
+                <Route
+                  path={routes.posts.editPost}
+                  element={<EditPost />}
+                />
+              </Route>
+              <Route path={routes.profile.index}>
+                <Route
+                  index
+                  element={<Profile />}
+                />
+              </Route>
+            </Route>
+            <Route element={<AuthLayout />}>
+              <Route
+                path={routes.auth.login}
+                element={<Login />}
               />
               <Route
-                path={routes.posts.getPost}
-                element={<Post />}
+                path={routes.auth.register}
+                element={<Register />}
               />
               <Route
-                path={routes.posts.addPost}
-                element={<AddPost />}
+                path={routes.auth.forgotPassword}
+                element={<ForgotPassword />}
               />
               <Route
-                path={routes.posts.editPost}
-                element={<EditPost />}
+                path={routes.auth.resetPassword}
+                element={<ResetPassword />}
               />
             </Route>
-            <Route path={routes.profile.index}>
-              <Route
-                index
-                element={<Profile />}
-              />
-            </Route>
-          </Route>
-          <Route element={<AuthLayout />}>
-            <Route
-              path={routes.auth.login}
-              element={<Login />}
-            />
-            <Route
-              path={routes.auth.register}
-              element={<Register />}
-            />
-            <Route
-              path={routes.auth.forgotPassword}
-              element={<ForgotPassword />}
-            />
-            <Route
-              path={routes.auth.resetPassword}
-              element={<ResetPassword />}
-            />
-          </Route>
 
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
-        </Routes>
-      </Router>
-      <Toaster />
-    </AuthProvider>
+            <Route
+              path="*"
+              element={<NotFound />}
+            />
+          </Routes>
+        </Router>
+        <Toaster />
+      </AuthProvider>
+    </CategoriesProvider>
   );
 }
 

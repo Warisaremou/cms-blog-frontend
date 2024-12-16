@@ -1,14 +1,18 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 import { getAllCategories } from "@/services/categories/hooks";
 import { CategoryList } from "@/types";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { InputProps } from "./ui/input";
 
-type Props = {
-  placeholder: string;
-};
+// type Props = {
+//   placeholder: string;
+//   className?: string;
+//   ref?:
+// };
 
-export default function CategoriesListSelect({ placeholder }: Props) {
+const CategoriesListSelect = forwardRef<HTMLInputElement, InputProps>(({ className, onChange, ...props }, ref) => {
   const { toast } = useToast();
   const [categories, setCategories] = useState<CategoryList>({
     data: [],
@@ -36,10 +40,13 @@ export default function CategoriesListSelect({ placeholder }: Props) {
 
   return (
     <Select>
-      <SelectTrigger className="w-48 gap-x-2 max-sm:w-[13rem] lg:w-52">
-        <SelectValue placeholder={placeholder} />
+      <SelectTrigger className={cn(className)}>
+        <SelectValue {...props} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent
+        onChange={onChange}
+        ref={ref}
+      >
         {isLoading ? (
           <SelectItem value="loading">Loading...</SelectItem>
         ) : (
@@ -55,4 +62,8 @@ export default function CategoriesListSelect({ placeholder }: Props) {
       </SelectContent>
     </Select>
   );
-}
+});
+
+CategoriesListSelect.displayName = "CategoriesListSelect";
+
+export default CategoriesListSelect;

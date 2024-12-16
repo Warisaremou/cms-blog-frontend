@@ -1,29 +1,34 @@
-import CategoriesListSelect from "@/components/categories-list-select";
 import InputError from "@/components/input-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useCategories } from "@/contexts/categories/hook";
 import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 import { addPostSchema } from "@/lib/validations/post";
 import { addPost } from "@/services/posts/hooks";
 import { addPostCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { ImagePlus, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Badge } from "../ui/badge";
 
 export default function AddEditPostForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isLoadingCategories, categories } = useCategories();
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<addPostCredentials>({
     resolver: zodResolver(addPostSchema),
     defaultValues: {
@@ -35,23 +40,41 @@ export default function AddEditPostForm() {
     mode: "all",
   });
 
-  const onSubmit = async (payload: addPostCredentials) => {
-    setIsLoading(true);
+  const handleAddToSelectedCategories = (id_category: number) => {
+    if (selectedCategories.includes(id_category)) {
+      setSelectedCategories(selectedCategories.filter((category) => category !== id_category));
+    } else {
+      setSelectedCategories([...selectedCategories, id_category]);
+    }
+  };
 
-    console.log(payload);
+  const onSubmit = async (payload: addPostCredentials) => {
+    if (selectedCategories.length === 0) {
+      setError("categories", {
+        type: "manual",
+        message: "Please select at least one category",
+      });
+      return;
+    }
+    setIsLoading(true);
+    payload.categories = selectedCategories;
 
     await addPost(payload)
       .then((response) => {
-        console.log(response);
-        setIsLoading(false);
         toast({
           title: response.message,
         });
-        navigate(`/${routes.posts.index}`);
+        setIsLoading(false);
+        setTimeout(() => {
+          navigate(`/${routes.posts.index}`);
+        }, 1500);
       })
       .catch((error) => {
-        console.log(error);
-        setIsLoading(true);
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
+        setIsLoading(false);
       });
   };
 
@@ -64,8 +87,28 @@ export default function AddEditPostForm() {
         {/* Categories field */}
         <div>
           <div className="form-input">
-            <Label htmlFor="categories">Select categories</Label>
-            <CategoriesListSelect placeholder="Select categories" />
+            <Label htmlFor="categories">Choose categories</Label>
+            <div className="flex flex-wrap gap-1">
+              {isLoadingCategories ? (
+                <span>Loading</span>
+              ) : (
+                categories.data.map((category) => (
+                  <Badge
+                    variant="secondary"
+                    key={category.id_category}
+                    className={cn(
+                      "cursor-pointer",
+                      selectedCategories.includes(parseInt(category.id_category))
+                        ? "bg-primary hover:bg-none! text-white"
+                        : "",
+                    )}
+                    onClick={() => handleAddToSelectedCategories(parseInt(category.id_category))}
+                  >
+                    {category.name}
+                  </Badge>
+                ))
+              )}
+            </div>
           </div>
           {errors.categories && <InputError errorMessage={errors.categories.message} />}
         </div>
@@ -87,32 +130,22 @@ export default function AddEditPostForm() {
         <div>
           <div className="form-input">
             <Label htmlFor="title">Post image</Label>
-            <div className="rounded-xl border-2 border-dashed border-input p-8">
-              <div className="space-y-1 text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <div className="flex justify-center text-gray-500 pb-1">
+            <div className="rounded-xl border-2 bg-background border-dashed border-input p-8">
+              <div className="flex flex-col items-center justify-center gap-3">
+                <ImagePlus
+                  strokeWidth={1.4}
+                  className="size-9 text-slate-400"
+                />
+                <div className="flex justify-center text-gray-500">
                   <label
                     htmlFor="file-upload"
-                    className="text-[11px] relative cursor-pointer rounded focus-within:outline-none focus-within:ring-1 focus-within:ring-blue-color focus-within:ring-offset-2"
+                    className="text-xs"
                   >
                     <input
                       id="file-upload"
                       type="file"
-                      className="text-gray-500 focus:ring-0 cursor-pointer"
-                      // onChange={(e) => handleFileChange(e)}
+                      className="text-primary/60 focus:outline-none cursor-pointer"
+                      {...register("image")}
                     />
                   </label>
                 </div>

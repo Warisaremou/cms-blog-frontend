@@ -27,7 +27,7 @@ export default function PostCard({ post }: Props) {
           <div className="bg-muted-foreground/15 size-full flex items-center justify-center">
             <Image
               strokeWidth={1.3}
-              className="size-12 text-muted-foreground text transition-transform duration-700 ease-in-out group-hover:scale-110"
+              className="size-12 text-muted-foreground transition-transform duration-700 ease-in-out group-hover:scale-110"
             />
           </div>
         )}

@@ -11,7 +11,10 @@ export default function PostsFilter({ setSearchKey }: Props) {
   return (
     <div className="flex items-center justify-between gap-2 sm:gap-5">
       <div className="">
-        <CategoriesListSelect placeholder="Filter by category" />
+        <CategoriesListSelect
+          placeholder="Filter by category"
+          className="w-48 gap-x-2 max-sm:w-[13rem] lg:w-52"
+        />
       </div>
 
       <Button
@@ -20,7 +23,7 @@ export default function PostsFilter({ setSearchKey }: Props) {
         onClick={() => setSearchKey("")}
       >
         <Trash2 className="size-4" />
-        <span className="hidden md:flex">Clear filters</span>
+        <span>Clear filters</span>
       </Button>
     </div>
   );

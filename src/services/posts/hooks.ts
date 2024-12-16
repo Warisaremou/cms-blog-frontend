@@ -14,9 +14,16 @@ export const addPost = async ({ title, content, image, categories }: addPostCred
   categories.map((id_category) => {
     form.append("categories", id_category.toString());
   });
-  // image && form.append("image", "wx");
-  console.log(image);
 
-  const response = await api.post("/posts", form).then((res) => res);
+  // @ts-expect-error: image might be undefined
+  if (image) form.append("image", image[0]);
+
+  const response = await api
+    .post("/posts", form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => res);
   return response.data;
 };
