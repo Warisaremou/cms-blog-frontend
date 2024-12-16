@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CommentIcon, LikeIcon } from "@/icons";
-import { ShareIcon } from "lucide-react";
+import { CommentIcon, LikeIcon, ShareIcon } from "@/icons";
 
 export default function PostActionSection() {
   return (
