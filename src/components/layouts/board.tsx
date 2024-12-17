@@ -5,6 +5,7 @@ import UserProfileDropdown from "@/components/user-profile-dropdown";
 import { siteConfig } from "@/config/site";
 import { useAuth } from "@/contexts/auth/hook";
 import { routes } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 import { Link, Outlet } from "react-router";
 
 export default function BoardLayout() {
@@ -13,7 +14,7 @@ export default function BoardLayout() {
   return (
     <div className="container flex flex-col min-h-screen w-full">
       {/* Navbar */}
-      <nav className="flex flex-row items-center justify-between py-4">
+      <nav className="flex flex-row items-center justify-between py-4 border-b border-secondary">
         <Logo />
 
         <ul className="flex flex-row items-center gap-x-1 md:gap-x-4 w-full justify-center">
@@ -21,6 +22,7 @@ export default function BoardLayout() {
             <CustomLink
               item={item}
               key={`${index}-${item.title}`}
+              className={cn(item.title === "Home" && "max-md:hidden")}
             />
           ))}
         </ul>

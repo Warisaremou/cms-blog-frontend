@@ -1,19 +1,20 @@
+import AvatarUpload from "@/components/avatar-upload";
 import InputError from "@/components/input-error";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/auth/hook";
 import { cn } from "@/lib/utils";
 import { updateProfileSchema } from "@/lib/validations/auth";
 import { updateProfileCredentials } from "@/types";
-import UserAvatar from "@/user-avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Textarea } from "../ui/textarea";
 
 export default function ProfileForm() {
   // const { toast } = useToast();
@@ -43,9 +44,9 @@ export default function ProfileForm() {
       await reset({
         firstname: userData.firstname,
         surname: userData.surname,
-        address: userData.address,
-        date_of_birth: userData.date_of_birth,
-        description: userData.description,
+        address: userData.address ?? "",
+        date_of_birth: userData.date_of_birth ?? "",
+        description: userData.description ?? "",
       });
     };
     fecthData();
@@ -54,26 +55,13 @@ export default function ProfileForm() {
   const onSubmit = async (payload: updateProfileCredentials) => {
     setIsLoading(true);
     console.log(payload);
+    setIsLoading(false);
   };
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-5">
       {/* User avatar */}
-      <div className="flex items-center gap-x-3">
-        <UserAvatar
-          avatar={userData.avatar}
-          firstname={userData.firstname}
-          surname={userData.surname}
-          className="size-16"
-        />
-
-        <Button
-          variant="ghost"
-          className="rounded-full border"
-        >
-          Change
-        </Button>
-      </div>
+      <AvatarUpload userData={userData} />
 
       {/* Form */}
       <form
@@ -125,14 +113,16 @@ export default function ProfileForm() {
             <div className="form-input">
               <Label htmlFor="date_of_birth">Bithdate</Label>
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger
+                  className="rounded-xl gap-x-2"
+                  asChild
+                >
                   <Button
-                    variant={"outline"}
-                    className={cn("w-[280px] justify-start text-left font-normal", !date && "text-muted-foreground")}
+                    variant="outline"
+                    className={cn("w-full justify-start text-left", !date && "text-muted-foreground")}
                   >
-                    <CalendarIcon />
-                    {/* {date ? format(date, "PPP") : <span>Pick a date</span>} */}
-                    <span>Pick a date</span>
+                    <CalendarIcon className="size-[18px]" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">

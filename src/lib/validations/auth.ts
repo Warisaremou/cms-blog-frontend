@@ -68,9 +68,13 @@ export const resetPasswordSchema = z
   });
 
 export const updateProfileSchema = z.object({
-  surname: z.string(),
-  firstname: z.string(),
-  address: z.string(),
-  date_of_birth: z.string(),
-  description: z.string(),
+  surname: z.string().min(3, {
+    message: "Surname must have at leat 3 characters",
+  }),
+  firstname: z.string().min(3, {
+    message: "Firstname must have at leat 3 characters",
+  }),
+  address: z.string().optional(),
+  date_of_birth: z.string().optional(),
+  description: z.string().optional(),
 });

@@ -6,6 +6,11 @@ export const getAllPosts = async () => {
   return response.data;
 };
 
+export const getAllPostsByUser = async () => {
+  const response = await api.get("/posts/users/user-posts").then((res) => res);
+  return response.data;
+};
+
 export const addPost = async ({ title, content, image, categories }: addPostCredentials) => {
   const form = new FormData();
 

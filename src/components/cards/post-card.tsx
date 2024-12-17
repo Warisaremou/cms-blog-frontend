@@ -1,20 +1,37 @@
 import { Badge } from "@/components/ui/badge";
 import { routes } from "@/lib/routes";
-import { formateDate } from "@/lib/utils";
+import { cn, formateDate } from "@/lib/utils";
 import { Post } from "@/types";
 import UserAvatar from "@/user-avatar";
-import { Image } from "lucide-react";
+import { Image, Loader2 } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
+import { Button } from "../ui/button";
 
 type Props = {
   post: Post;
+  withAction?: boolean;
 };
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, withAction = false }: Props) {
+  const [isDeletingPost, setIsDeletingPost] = useState(false);
+
+  const handlePostDelete = (id_post: string) => {
+    setIsDeletingPost(true);
+    console.log("Delete Post with ID: ", id_post);
+    setTimeout(() => {
+      setIsDeletingPost(false);
+    }, 2000);
+  };
+
   return (
     <Link
+      aria-disabled={isDeletingPost}
       to={`/${routes.posts.index}/${post.id_post}`}
-      className="group relative flex flex-col gap-y-4 justify-between rounded-2xl border border-slate-200/50 bg-background p-2.5 transition-colors duration-200 ease-in-out hover:bg-secondary/70 focus-visible:outline-none"
+      className={cn(
+        "group relative flex flex-col gap-y-4 rounded-2xl border border-slate-200/50 bg-background p-2.5 transition-colors duration-200 ease-in-out hover:bg-secondary/70 focus-visible:outline-none",
+        isDeletingPost && "opacity-50 pointer-events-none cursor-not-allowed",
+      )}
     >
       <div className="h-56 overflow-hidden rounded-xl">
         {post.image ? (
@@ -59,6 +76,33 @@ export default function PostCard({ post }: Props) {
           <span>{formateDate(post.created_at.toLocaleString())}</span>
         </div>
       </div>
+
+      {/* Actions */}
+      {withAction && (
+        <div className="absolute p-2.5 hidden group-hover:grid inset-0 bg-primary/25 rounded-2xl grid-cols-2 items-end gap-2 transition-all ease-in-out">
+          <Button
+            variant="secondary"
+            className="hover:bg-secondary"
+            disabled={isDeletingPost}
+          >
+            Update
+          </Button>
+          <Button
+            variant="destructive"
+            className="bg-destructive text-background hover:bg-destructive"
+            disabled={isDeletingPost}
+            onClick={() => handlePostDelete(post.id_post)}
+          >
+            {isDeletingPost && (
+              <Loader2
+                className="mr-2 size-4 animate-spin"
+                aria-hidden="true"
+              />
+            )}
+            Delete
+          </Button>
+        </div>
+      )}
     </Link>
   );
 }

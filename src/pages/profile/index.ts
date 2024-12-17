@@ -1,3 +1,4 @@
+import MyPosts from "@/pages/profile/my-posts";
 import Profile from "@/pages/profile/profile";
 
-export { Profile };
+export { MyPosts, Profile };

@@ -23,7 +23,7 @@ export default function PostsFilter({ setSearchKey }: Props) {
         onClick={() => setSearchKey("")}
       >
         <Trash2 className="size-4" />
-        <span>Clear filters</span>
+        <span className="max-md:hidden">Clear filters</span>
       </Button>
     </div>
   );

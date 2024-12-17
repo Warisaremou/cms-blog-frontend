@@ -1,4 +1,4 @@
-import { AuthLayout, BoardLayout } from "@/components/layouts";
+import { AuthLayout, BoardLayout, ProfileLayout } from "@/components/layouts";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/contexts/auth/provider";
 import CategoriesProvider from "@/contexts/categories/provider";
@@ -6,7 +6,7 @@ import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
 import { AddPost, EditPost, Post, Posts } from "@/pages/posts";
-import { Profile } from "@/pages/profile";
+import { MyPosts, Profile } from "@/pages/profile";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 function App() {
@@ -34,17 +34,29 @@ function App() {
                 />
                 <Route
                   path={routes.posts.addPost}
-                  element={<AddPost />}
+                  element={
+                    <AddPost />
+                    // <AuthGuard>
+                    //   <AddPost />
+                    // </AuthGuard>
+                  }
                 />
                 <Route
                   path={routes.posts.editPost}
                   element={<EditPost />}
                 />
               </Route>
-              <Route path={routes.profile.index}>
+              <Route
+                path={routes.profile.index}
+                element={<ProfileLayout />}
+              >
                 <Route
                   index
                   element={<Profile />}
+                />
+                <Route
+                  path={routes.profile.posts}
+                  element={<MyPosts />}
                 />
               </Route>
             </Route>

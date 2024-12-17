@@ -92,6 +92,6 @@
   }
 
   .board-content {
-    @apply py-12;
+    @apply py-7 md:py-12;
   }
 }
