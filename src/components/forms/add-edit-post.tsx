@@ -81,7 +81,7 @@ export default function AddEditPostForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="form-container"
+      className="form-container !px-0"
     >
       <div className="space-y-3">
         {/* Categories field */}
@@ -164,6 +164,7 @@ export default function AddEditPostForm() {
               placeholder="Post content"
               rows={10}
               {...register("content")}
+              className="resize-none"
             />
           </div>
           {errors.content && <InputError errorMessage={errors.content.message} />}
