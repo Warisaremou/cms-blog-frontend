@@ -44,11 +44,11 @@ export default function LoginForm() {
           title: response.data.message,
         });
         setItem("accessToken", response.data?.token);
+        setIsLoading(false);
         setTimeout(() => {
-          setIsLoading(false);
+          navigate("/");
+          window.location.reload();
         }, 1500);
-        navigate("/");
-        window.location.reload();
       })
       .catch((error) => {
         toast({
