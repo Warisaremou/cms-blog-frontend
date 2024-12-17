@@ -1,10 +1,8 @@
 import PostCard from "@/components/cards/post-card";
 import { PostLoader } from "@/components/loaders";
-import { Pagination } from "@/components/pagers";
 import PostsFilter from "@/components/posts-filter";
 import { PostList } from "@/types";
-import { Dispatch, SetStateAction, useTransition } from "react";
-import { useNavigate } from "react-router";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   searchKey: string;
@@ -14,8 +12,8 @@ type Props = {
 };
 
 export default function PostsListSection({ searchKey, setSearchKey, isLoading, posts }: Props) {
-  const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
+  // const navigate = useNavigate();
+  // const [isPending, startTransition] = useTransition();
 
   return (
     <div className="flex flex-col space-y-8">
@@ -42,14 +40,14 @@ export default function PostsListSection({ searchKey, setSearchKey, isLoading, p
               ))}
           </div>
           {/* Pagination */}
-          <Pagination
+          {/* <Pagination
             pageCount={posts.meta.per_page}
             page={`${posts.meta.page}`}
             navigate={navigate}
             pathname="/"
             isPending={isPending}
             startTransition={startTransition}
-          />
+          /> */}
         </>
       )}
     </div>

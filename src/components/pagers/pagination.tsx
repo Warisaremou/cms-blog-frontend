@@ -65,7 +65,7 @@ export default function Pagination({
         disabled={Number(page) === (pageCount ?? 10) || isPending}
         className="rounded-xl hidden md:flex"
         onClick={() => {
-          navigate("/");
+          navigate("/posts");
         }}
       >
         <DoubleArrowRightIcon
