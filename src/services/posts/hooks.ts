@@ -32,3 +32,20 @@ export const addPost = async ({ title, content, image, categories }: addPostCred
     .then((res) => res);
   return response.data;
 };
+export const editpost = async (id_post: number, { title, content, image, categories }: addPostCredentials) => {
+  const form = new FormData();
+
+  form.append("title", title);
+  form.append("content", content);
+  categories.forEach((id_category) => {
+    form.append("categories", id_category.toString());
+  });
+
+  if (image instanceof File) {
+    form.append("image", image);
+  }
+
+  const response = await api.patch(`/posts/${id_post}`, form).then((res) => res);
+
+  return response.data;
+};

@@ -9,15 +9,15 @@ import { routes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { addPostSchema } from "@/lib/validations/post";
 import { addPost } from "@/services/posts/hooks";
-import { addPostCredentials } from "@/types";
+import { addPostCredentials, Post } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Badge } from "../ui/badge";
 
-export default function AddEditPostForm() {
+export default function AddEditPostForm({ postData }: { postData?: Post | null }) {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +27,7 @@ export default function AddEditPostForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setError,
   } = useForm<addPostCredentials>({
@@ -39,6 +40,19 @@ export default function AddEditPostForm() {
     },
     mode: "all",
   });
+
+  // Charger les données du post pour modification
+  useEffect(() => {
+    const fetchPostData = async () => {
+      await reset({
+        //  title: postData.title,
+        //  content: postData.content,
+        //  categories: postData.categories,
+      });
+    };
+
+    fetchPostData();
+  }, [reset, postData]);
 
   const handleAddToSelectedCategories = (id_category: number) => {
     if (selectedCategories.includes(id_category)) {

@@ -41,7 +41,7 @@ export default function MyPosts() {
 
       {isLoading ? (
         <div className="grid gap-6 md:grid-cols-2">
-          {[...Array(6)].map((_, index) => (
+          {[...Array(4)].map((_, index) => (
             <PostLoader key={index} />
           ))}
         </div>
