@@ -2,7 +2,6 @@ import { AuthLayout, BoardLayout, ProfileLayout } from "@/components/layouts";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/contexts/auth/provider";
 import CategoriesProvider from "@/contexts/categories/provider";
-import AuthGuard from "@/guards/auth-guard";
 import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
@@ -35,28 +34,16 @@ function App() {
                 />
                 <Route
                   path={routes.posts.addPost}
-                  element={
-                    <AuthGuard>
-                      <AddPost />
-                    </AuthGuard>
-                  }
+                  element={<AddPost />}
                 />
                 <Route
                   path={routes.posts.editPost}
-                  element={
-                    <AuthGuard>
-                      <EditPost />
-                    </AuthGuard>
-                  }
+                  element={<EditPost />}
                 />
               </Route>
               <Route
                 path={routes.profile.index}
-                element={
-                  <AuthGuard>
-                    <ProfileLayout />
-                  </AuthGuard>
-                }
+                element={<ProfileLayout />}
               >
                 <Route
                   index

@@ -9,9 +9,6 @@ type Props = {
 };
 
 export default function PostsListSection({ searchKey, isLoading, posts }: Props) {
-  // const navigate = useNavigate();
-  // const [isPending, startTransition] = useTransition();
-
   return (
     <div className="flex flex-col">
       {isLoading ? (
@@ -33,15 +30,6 @@ export default function PostsListSection({ searchKey, isLoading, posts }: Props)
                 />
               ))}
           </div>
-          {/* Pagination */}
-          {/* <Pagination
-            pageCount={posts.meta.per_page}
-            page={`${posts.meta.page}`}
-            navigate={navigate}
-            pathname="/"
-            isPending={isPending}
-            startTransition={startTransition}
-          /> */}
         </>
       )}
     </div>

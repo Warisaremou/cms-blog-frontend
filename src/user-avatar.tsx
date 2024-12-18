@@ -14,6 +14,7 @@ export default function UserAvatar({ avatar, surname, firstname, className }: Pr
       <AvatarImage
         src={avatar ?? ""}
         alt={`${surname} ${firstname}`}
+        className="size-full object-cover"
       />
       <AvatarFallback>{firstname.substring(0, 1).toUpperCase() + surname.substring(0, 1).toUpperCase()}</AvatarFallback>
     </Avatar>

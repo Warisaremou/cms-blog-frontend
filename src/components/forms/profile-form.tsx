@@ -1,26 +1,23 @@
 import AvatarUpload from "@/components/avatar-upload";
 import InputError from "@/components/input-error";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/auth/hook";
-import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 import { updateProfileSchema } from "@/lib/validations/auth";
+import { updateUserProfile } from "@/services/auth/hooks";
 import { updateProfileCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export default function ProfileForm() {
-  // const { toast } = useToast();
+  const { toast } = useToast();
   const { userData } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [date, setDate] = useState<Date>();
 
   const {
     register,
@@ -33,7 +30,6 @@ export default function ProfileForm() {
       firstname: "",
       surname: "",
       address: "",
-      date_of_birth: "",
       description: "",
     },
     mode: "all",
@@ -45,7 +41,6 @@ export default function ProfileForm() {
         firstname: userData.firstname,
         surname: userData.surname,
         address: userData.address ?? "",
-        date_of_birth: userData.date_of_birth ?? "",
         description: userData.description ?? "",
       });
     };
@@ -54,8 +49,24 @@ export default function ProfileForm() {
 
   const onSubmit = async (payload: updateProfileCredentials) => {
     setIsLoading(true);
-    console.log(payload);
-    setIsLoading(false);
+
+    await updateUserProfile(payload)
+      .then(() => {
+        toast({
+          title: "Profile updated successfully",
+        });
+        setIsLoading(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -104,36 +115,6 @@ export default function ProfileForm() {
                 placeholder="Your Address"
                 {...register("address")}
               />
-            </div>
-            {errors.address && <InputError errorMessage={errors.address.message} />}
-          </div>
-
-          {/* Date of Birth field */}
-          <div>
-            <div className="form-input">
-              <Label htmlFor="date_of_birth">Bithdate</Label>
-              <Popover>
-                <PopoverTrigger
-                  className="rounded-xl gap-x-2"
-                  asChild
-                >
-                  <Button
-                    variant="outline"
-                    className={cn("w-full justify-start text-left", !date && "text-muted-foreground")}
-                  >
-                    <CalendarIcon className="size-[18px]" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
             </div>
             {errors.address && <InputError errorMessage={errors.address.message} />}
           </div>
