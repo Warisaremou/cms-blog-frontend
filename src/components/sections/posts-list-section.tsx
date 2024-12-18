@@ -1,25 +1,19 @@
 import PostCard from "@/components/cards/post-card";
 import { PostLoader } from "@/components/loaders";
-import PostsFilter from "@/components/posts-filter";
 import { PostList } from "@/types";
-import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   searchKey: string;
-  setSearchKey: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   posts: PostList;
 };
 
-export default function PostsListSection({ searchKey, setSearchKey, isLoading, posts }: Props) {
+export default function PostsListSection({ searchKey, isLoading, posts }: Props) {
   // const navigate = useNavigate();
   // const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex flex-col space-y-8">
-      {/* Posts Filter */}
-      <PostsFilter setSearchKey={setSearchKey} />
-
+    <div className="flex flex-col">
       {isLoading ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, index) => (

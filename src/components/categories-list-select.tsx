@@ -3,16 +3,16 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { getAllCategories } from "@/services/categories/hooks";
 import { CategoryList } from "@/types";
-import { forwardRef, useEffect, useState } from "react";
-import { InputProps } from "./ui/input";
+import { useEffect, useState } from "react";
 
-// type Props = {
-//   placeholder: string;
-//   className?: string;
-//   ref?:
-// };
+type Props = {
+  placeholder: string;
+  className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onValueChange?: any;
+};
 
-const CategoriesListSelect = forwardRef<HTMLInputElement, InputProps>(({ className, onChange, ...props }, ref) => {
+export default function CategoriesListSelect({ placeholder, className, onValueChange }: Props) {
   const { toast } = useToast();
   const [categories, setCategories] = useState<CategoryList>({
     data: [],
@@ -39,14 +39,11 @@ const CategoriesListSelect = forwardRef<HTMLInputElement, InputProps>(({ classNa
   }, []);
 
   return (
-    <Select>
+    <Select onValueChange={onValueChange}>
       <SelectTrigger className={cn(className)}>
-        <SelectValue {...props} />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent
-        onChange={onChange}
-        ref={ref}
-      >
+      <SelectContent>
         {isLoading ? (
           <SelectItem value="loading">Loading...</SelectItem>
         ) : (
@@ -62,8 +59,4 @@ const CategoriesListSelect = forwardRef<HTMLInputElement, InputProps>(({ classNa
       </SelectContent>
     </Select>
   );
-});
-
-CategoriesListSelect.displayName = "CategoriesListSelect";
-
-export default CategoriesListSelect;
+}

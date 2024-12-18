@@ -39,7 +39,7 @@ export default function Posts() {
   }, []);
 
   return (
-    <div className="board-content flex-1 max-lg:space-y-5">
+    <div className="board-content flex-1 max-lg:space-y-5 space-y-10">
       <div className="flex flex-col items-center gap-y-8">
         <Header
           title="Writings from our team"
@@ -54,7 +54,6 @@ export default function Posts() {
       {/* Posts List Section */}
       <PostsListSection
         searchKey={searchKey}
-        setSearchKey={setSearchKey}
         isLoading={isLoading}
         posts={posts}
       />
