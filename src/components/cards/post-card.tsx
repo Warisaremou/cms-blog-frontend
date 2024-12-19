@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn, formateDate } from "@/lib/utils";
+import { deletePost } from "@/services/posts/hooks";
 import { Post } from "@/types";
 import UserAvatar from "@/user-avatar";
 import { Image, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -14,14 +16,29 @@ type Props = {
 };
 
 export default function PostCard({ post, withAction = false }: Props) {
+  const { toast } = useToast();
   const [isDeletingPost, setIsDeletingPost] = useState(false);
+  const navigate = useNavigate();
 
   const handlePostDelete = (id_post: string) => {
     setIsDeletingPost(true);
-    console.log("Delete Post with ID: ", id_post);
-    setTimeout(() => {
-      setIsDeletingPost(false);
-    }, 2000);
+    deletePost(parseInt(id_post))
+      .then((response) => {
+        toast({
+          title: response.message,
+        });
+        setIsDeletingPost(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
+        setIsDeletingPost(false);
+      });
   };
 
   return (
@@ -84,6 +101,11 @@ export default function PostCard({ post, withAction = false }: Props) {
             variant="secondary"
             className="hover:bg-secondary"
             disabled={isDeletingPost}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/posts/${post.id_post}/edit`);
+            }}
           >
             Update
           </Button>
@@ -91,7 +113,11 @@ export default function PostCard({ post, withAction = false }: Props) {
             variant="destructive"
             className="bg-destructive text-background hover:bg-destructive"
             disabled={isDeletingPost}
-            onClick={() => handlePostDelete(post.id_post)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handlePostDelete(post.id_post);
+            }}
           >
             {isDeletingPost && (
               <Loader2

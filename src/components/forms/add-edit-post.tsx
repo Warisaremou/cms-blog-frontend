@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { addPostSchema } from "@/lib/validations/post";
-import { addPost } from "@/services/posts/hooks";
+import { addPost, editpost } from "@/services/posts/hooks";
 import { addPostCredentials, Post } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2 } from "lucide-react";
@@ -44,11 +44,15 @@ export default function AddEditPostForm({ postData }: { postData?: Post | null }
   // Charger les données du post pour modification
   useEffect(() => {
     const fetchPostData = async () => {
-      await reset({
-        //  title: postData.title,
-        //  content: postData.content,
-        //  categories: postData.categories,
-      });
+      if (postData) {
+        const defaultCategories: number[] = postData.categories.map((category) => parseInt(category.id_category));
+        reset({
+          title: postData.title,
+          content: postData.content,
+          categories: defaultCategories,
+        });
+        setSelectedCategories(defaultCategories);
+      }
     };
 
     fetchPostData();
@@ -73,23 +77,43 @@ export default function AddEditPostForm({ postData }: { postData?: Post | null }
     setIsLoading(true);
     payload.categories = selectedCategories;
 
-    await addPost(payload)
-      .then((response) => {
-        toast({
-          title: response.message,
+    if (postData) {
+      await editpost(parseInt(postData.id_post), payload)
+        .then((response) => {
+          toast({
+            title: response.message,
+          });
+          setIsLoading(false);
+          setTimeout(() => {
+            navigate(`/${routes.posts.index}`);
+          }, 1500);
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: error.response.data.message ?? error.message,
+          });
+          setIsLoading(false);
         });
-        setIsLoading(false);
-        setTimeout(() => {
-          navigate(`/${routes.posts.index}`);
-        }, 1500);
-      })
-      .catch((error) => {
-        toast({
-          variant: "destructive",
-          title: error.response.data.message ?? error.message,
+    } else {
+      await addPost(payload)
+        .then((response) => {
+          toast({
+            title: response.message,
+          });
+          setIsLoading(false);
+          setTimeout(() => {
+            navigate(`/${routes.posts.index}`);
+          }, 1500);
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: error.response.data.message ?? error.message,
+          });
+          setIsLoading(false);
         });
-        setIsLoading(false);
-      });
+    }
   };
 
   return (
@@ -197,7 +221,7 @@ export default function AddEditPostForm({ postData }: { postData?: Post | null }
             aria-hidden="true"
           />
         )}
-        Add Post
+        {postData ? "Update Post" : "Add Post"}
       </Button>
     </form>
   );

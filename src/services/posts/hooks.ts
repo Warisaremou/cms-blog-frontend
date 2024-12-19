@@ -32,6 +32,7 @@ export const addPost = async ({ title, content, image, categories }: addPostCred
     .then((res) => res);
   return response.data;
 };
+
 export const editpost = async (id_post: number, { title, content, image, categories }: addPostCredentials) => {
   const form = new FormData();
 
@@ -47,5 +48,10 @@ export const editpost = async (id_post: number, { title, content, image, categor
 
   const response = await api.patch(`/posts/${id_post}`, form).then((res) => res);
 
+  return response.data;
+};
+
+export const deletePost = async (id_post: number) => {
+  const response = await api.delete(`/posts/${id_post}`).then((res) => res);
   return response.data;
 };
