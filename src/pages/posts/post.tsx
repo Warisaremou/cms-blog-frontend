@@ -98,7 +98,7 @@ export default function Post() {
       </div>
 
       {/* Section latérale : Commentaires */}
-      <div className="border border-green-300 w-full lg:w-1/3 bg-gray-50 p-4 rounded-lg shadow-md flex flex-col gap-5">
+      <div className="bg-background border border-accent w-full lg:w-1/3 p-4 rounded-lg flex flex-col gap-5">
         {/* Liste des commentaires */}
         <h2 className="font-bold text-xl">Commentaires</h2>
         <CommentsList id_post={id_post} />
