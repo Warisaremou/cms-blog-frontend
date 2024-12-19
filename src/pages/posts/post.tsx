@@ -1,5 +1,5 @@
-import AddComment from "@/components/comments/add-comment";
 import CommentsList from "@/components/comments/comment-list";
+import CommentForm from "@/components/forms/comments-form";
 import PostActionSection from "@/components/sections/post-action-section";
 import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
@@ -98,24 +98,11 @@ export default function Post() {
       </div>
 
       {/* Section latérale : Commentaires */}
-      <div className="w-full lg:w-1/3 bg-gray-50 p-4 rounded-lg shadow-md flex flex-col">
+      <div className="border border-green-300 w-full lg:w-1/3 bg-gray-50 p-4 rounded-lg shadow-md flex flex-col gap-5">
         {/* Liste des commentaires */}
-        <div className="flex-1">
-          <h2 className="font-bold text-xl mb-4">Commentaires</h2>
-          <CommentsList postId={Number(id_post)} />
-        </div>
-
-        {/* Ajouter un commentaire */}
-        <div className="mt-8">
-          <h2 className="font-bold text-xl mb-4">Ajouter un commentaire</h2>
-          <AddComment
-            postId={Number(id_post)}
-            onCommentAdded={() => {
-              // eslint-disable-next-line no-console
-              console.log("Un commentaire a été ajouté.");
-            }}
-          />
-        </div>
+        <h2 className="font-bold text-xl">Commentaires</h2>
+        <CommentsList id_post={id_post} />
+        <CommentForm />
       </div>
     </div>
   );

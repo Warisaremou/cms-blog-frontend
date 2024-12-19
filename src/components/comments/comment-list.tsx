@@ -1,10 +1,8 @@
 import { getComments } from "@/services/comments";
 import { CommentData } from "@/types";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 
-export default function CommentsList() {
-  const { id_post } = useParams();
+export default function CommentsList({ id_post }: { id_post: string | undefined }) {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,27 +27,26 @@ export default function CommentsList() {
   }, []);
 
   return (
-    <div className="comments-list">
-      <h3>Comments</h3>
+    <div>
       {isLoading ? (
         <p>Loading comments...</p>
       ) : comments.length > 0 ? (
-        <ul>
+        <div className="flex flex-col gap-2">
           {comments.map((comment) => (
-            <li
+            <div
               key={comment.id_comment}
-              className="border-b py-2"
+              className="border border-slate-200/50 bg-background rounded-lg p-2.5"
             >
-              <p>{comment.content}</p>
+              <p className="text-sm">{comment.content}</p>
               {/* <p>
                 <strong>{comment.author}</strong>: {comment.content}
               </p> */}
               {/* <p className="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleString()}</p> */}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
-        <p></p>
+        <p className="text-sm text-slate-400	text-center">No Comment added yet</p>
       )}
     </div>
   );
