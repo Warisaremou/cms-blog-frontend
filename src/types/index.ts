@@ -1,4 +1,10 @@
-import { forgotPasswordSchema, loginSchema, registerSchema, updateProfileSchema } from "@/lib/validations/auth";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  updateProfileSchema,
+} from "@/lib/validations/auth";
 import { addPostSchema } from "@/lib/validations/post";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
@@ -46,6 +52,8 @@ export type registerCredentials = z.infer<typeof registerSchema>;
 export type loginCredentials = z.infer<typeof loginSchema>;
 
 export type forgotPasswordCredentials = z.infer<typeof forgotPasswordSchema>;
+
+export type resetPasswordFormCredentials = z.infer<typeof resetPasswordSchema>;
 
 export type resetPasswordCredentials = {
   hashValue: string;

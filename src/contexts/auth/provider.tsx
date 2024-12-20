@@ -1,7 +1,7 @@
 import { AuthContext } from "@/contexts/auth/context";
 import { defaultUserData } from "@/data/user";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import { getUserData } from "@/services/auth/hooks";
+import { getUserData } from "@/services/auth";
 import { User } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 

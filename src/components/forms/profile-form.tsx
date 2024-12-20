@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/auth/hook";
 import { useToast } from "@/hooks/use-toast";
 import { updateProfileSchema } from "@/lib/validations/auth";
-import { updateUserProfile } from "@/services/auth/hooks";
+import { updateUserProfile } from "@/services/auth";
 import { updateProfileCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -136,9 +136,8 @@ export default function ProfileForm() {
         </div>
 
         <Button
-          className="w-fit"
+          className="md:w-fit"
           type="submit"
-          size="lg"
           disabled={isLoading}
         >
           {isLoading && (

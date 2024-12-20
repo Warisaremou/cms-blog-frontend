@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useToast } from "@/hooks/use-toast";
-import api from "@/lib/axios-instance";
 import { routes } from "@/lib/routes";
 import { loginSchema } from "@/lib/validations/auth";
+import { login } from "@/services/auth";
 import { loginCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -37,11 +37,10 @@ export default function LoginForm() {
   const onSubmit = async (payload: loginCredentials) => {
     setIsLoading(true);
 
-    await api
-      .post("/auth/login", payload)
+    await login(payload)
       .then(async (response) => {
         toast({
-          title: response.data.message,
+          title: response.message,
         });
         setItem("accessToken", response.data?.token);
         setIsLoading(false);

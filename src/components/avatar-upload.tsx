@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { updateUserAvatar } from "@/services/auth/hooks";
+import { updateUserAvatar } from "@/services/auth";
 import { User } from "@/types";
 import UserAvatar from "@/user-avatar";
 import { Loader2 } from "lucide-react";
