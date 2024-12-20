@@ -1,7 +1,7 @@
 import { AuthContext } from "@/contexts/auth/context";
 import { defaultUserData } from "@/data/user";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import api from "@/lib/axios-instance";
+import { getUserData } from "@/services/auth";
 import { User } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -14,15 +14,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (accessToken) {
       setIsAuthenticated(true);
-      api
-        .get("/auth/me")
+      getUserData()
         .then((response) => {
-          setUserData(response.data);
+          setUserData(response);
         })
         .catch(() => {
           // TODO: To be reviewed
           // removeItem("accessToken");
-          setIsAuthenticated(false);
+          //  setIsAuthenticated(false);
         });
     }
   }, [accessToken]);

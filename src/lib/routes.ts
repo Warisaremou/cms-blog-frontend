@@ -8,7 +8,7 @@ export const routes = {
   },
   profile: {
     index: "profile",
-    posts: "profile/posts",
+    posts: "posts",
   },
   auth: {
     login: "login",

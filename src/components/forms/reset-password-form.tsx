@@ -3,17 +3,15 @@ import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import api from "@/lib/axios-instance";
 import { routes } from "@/lib/routes";
 import { resetPasswordSchema } from "@/lib/validations/auth";
+import { resetPassword } from "@/services/auth";
+import { resetPasswordFormCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router";
-import { z } from "zod";
-
-type resetPasswordFormCredentials = z.infer<typeof resetPasswordSchema>;
 
 export default function ResetPasswordForm() {
   const { toast } = useToast();
@@ -39,14 +37,13 @@ export default function ResetPasswordForm() {
     setIsLoading(true);
     const { hashValue, password } = payload;
 
-    await api
-      .post("/auth/reset-password", {
-        hashValue,
-        password,
-      })
+    await resetPassword({
+      hashValue,
+      password,
+    })
       .then(async (response) => {
         toast({
-          title: response.data.message,
+          title: response.message,
         });
         setTimeout(() => {
           navigate(`/${routes.auth.login}`);

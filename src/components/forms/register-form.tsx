@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import api from "@/lib/axios-instance";
 import { routes } from "@/lib/routes";
 import { registerSchema } from "@/lib/validations/auth";
+import { createAccount } from "@/services/auth";
 import { registerCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -38,11 +38,10 @@ export default function RegisterForm() {
   const onSubmit = async (payload: registerCredentials) => {
     setIsLoading(true);
 
-    await api
-      .post("/auth/register", payload)
+    await createAccount(payload)
       .then(async (response) => {
         toast({
-          title: response.data.message,
+          title: response.message,
         });
         setTimeout(() => {
           setIsLoading(false);
@@ -56,30 +55,6 @@ export default function RegisterForm() {
         });
         setIsLoading(false);
       });
-    // mutate(
-    //   {
-    //     ...payload,
-    //   },
-    //   {
-    //     onSuccess: async (data: any) => {
-    //       // console.log(data);
-    //       toast({
-    //         title: data.message,
-    //       });
-
-    //       setTimeout(() => {
-    //         navigate("/confirm-email");
-    //       }, 1500);
-    //     },
-    //     onError: (error: any) => {
-    //       // console.log(error);
-    //       toast({
-    //         variant: "destructive",
-    //         title: error.response.data.message ?? error.message,
-    //       });
-    //     },
-    //   },
-    // );
   };
 
   return (

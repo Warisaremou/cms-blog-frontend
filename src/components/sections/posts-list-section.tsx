@@ -1,27 +1,16 @@
 import PostCard from "@/components/cards/post-card";
 import { PostLoader } from "@/components/loaders";
-import { Pagination } from "@/components/pagers";
-import PostsFilter from "@/components/posts-filter";
 import { PostList } from "@/types";
-import { Dispatch, SetStateAction, useTransition } from "react";
-import { useNavigate } from "react-router";
 
 type Props = {
   searchKey: string;
-  setSearchKey: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   posts: PostList;
 };
 
-export default function PostsListSection({ searchKey, setSearchKey, isLoading, posts }: Props) {
-  const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
-
+export default function PostsListSection({ searchKey, isLoading, posts }: Props) {
   return (
-    <div className="flex flex-col space-y-8">
-      {/* Posts Filter */}
-      <PostsFilter setSearchKey={setSearchKey} />
-
+    <div className="flex flex-col">
       {isLoading ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, index) => (
@@ -41,15 +30,6 @@ export default function PostsListSection({ searchKey, setSearchKey, isLoading, p
                 />
               ))}
           </div>
-          {/* Pagination */}
-          <Pagination
-            pageCount={posts.meta.per_page}
-            page={`${posts.meta.page}`}
-            navigate={navigate}
-            pathname="/"
-            isPending={isPending}
-            startTransition={startTransition}
-          />
         </>
       )}
     </div>

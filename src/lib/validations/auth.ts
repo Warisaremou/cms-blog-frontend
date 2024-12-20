@@ -66,3 +66,14 @@ export const resetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const updateProfileSchema = z.object({
+  surname: z.string().min(3, {
+    message: "Surname must have at leat 3 characters",
+  }),
+  firstname: z.string().min(3, {
+    message: "Firstname must have at leat 3 characters",
+  }),
+  address: z.string().optional(),
+  description: z.string().optional(),
+});

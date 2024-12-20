@@ -15,4 +15,14 @@ export const siteConfig = {
       href: routes.posts.index,
     },
   ] satisfies MainNavItem[],
+  profileNav: [
+    {
+      title: "Profile",
+      href: `/${routes.profile.index}`,
+    },
+    {
+      title: "My Posts",
+      href: routes.profile.posts,
+    },
+  ] satisfies MainNavItem[],
 };

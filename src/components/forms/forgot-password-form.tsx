@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import api from "@/lib/axios-instance";
 import { forgotPasswordSchema } from "@/lib/validations/auth";
+import { forgotPassword } from "@/services/auth";
 import { forgotPasswordCredentials } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -30,11 +30,10 @@ export default function ForgotPasswordForm() {
   const onSubmit = async (payload: forgotPasswordCredentials) => {
     setIsLoading(true);
 
-    await api
-      .post("/auth/forgot-password", payload)
+    await forgotPassword(payload)
       .then(async (response) => {
         toast({
-          title: response.data.message,
+          title: response.message,
         });
         setIsLoading(false);
       })

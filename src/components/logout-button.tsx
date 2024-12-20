@@ -1,16 +1,20 @@
 import { useLocalStorage } from "@/hooks/use-localstorage";
+import { routes } from "@/lib/routes";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function LogoutButton() {
   const { removeItem } = useLocalStorage();
   const [isPending, setIsPending] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsPending(true);
     setTimeout(() => {
       removeItem("accessToken");
       setIsPending(false);
+      navigate(`/${routes.posts.index}`);
       window.location.reload();
     }, 1500);
   };

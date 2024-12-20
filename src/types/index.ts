@@ -1,4 +1,11 @@
-import { forgotPasswordSchema, loginSchema, registerSchema } from "@/lib/validations/auth";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  updateProfileSchema,
+} from "@/lib/validations/auth";
+import { addPostSchema } from "@/lib/validations/post";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 
@@ -29,9 +36,9 @@ export interface User {
   surname: string;
   firstname: string;
   email: string;
-  address: string | null;
+  address: string;
   avatar: string | null;
-  date_of_birth: Date | null;
+  date_of_birth: undefined | string;
   description: string;
 }
 export interface AuthContextType {
@@ -46,29 +53,21 @@ export type loginCredentials = z.infer<typeof loginSchema>;
 
 export type forgotPasswordCredentials = z.infer<typeof forgotPasswordSchema>;
 
+export type resetPasswordFormCredentials = z.infer<typeof resetPasswordSchema>;
+
 export type resetPasswordCredentials = {
   hashValue: string;
   password: string;
 };
 
-export type updateProfileCredentials = {
-  surname: string;
-  firstname: string;
-  address: string;
-  date_of_birth: Date;
-};
+export type updateProfileCredentials = z.infer<typeof updateProfileSchema>;
 
 export type updateUserRoleCredentials = {
   id_role: string;
 };
 
 // --------- POSTS TYPES --------- //
-export type addPostCredentials = {
-  image?: string;
-  title: string;
-  content: string;
-  categories: string;
-};
+export type addPostCredentials = z.infer<typeof addPostSchema>;
 
 export interface Post {
   id_post: string;
