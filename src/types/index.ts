@@ -5,6 +5,7 @@ import {
   resetPasswordSchema,
   updateProfileSchema,
 } from "@/lib/validations/auth";
+import { commentSchema } from "@/lib/validations/comment";
 import { addPostSchema } from "@/lib/validations/post";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
@@ -92,4 +93,14 @@ export interface Category {
 
 export interface CategoryList {
   data: Category[];
+}
+
+// --------- COMMENTS TYPES --------- //
+export type Comment = z.infer<typeof commentSchema>;
+
+export interface CommentData {
+  id_comment: string;
+  content: string;
+  created_at: Date;
+  id_user: string;
 }
