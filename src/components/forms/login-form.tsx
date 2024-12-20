@@ -42,7 +42,7 @@ export default function LoginForm() {
         toast({
           title: response.message,
         });
-        setItem("accessToken", response.data?.token);
+        setItem("accessToken", response?.token);
         setIsLoading(false);
         setTimeout(() => {
           navigate("/");
