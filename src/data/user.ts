@@ -8,6 +8,6 @@ export const defaultUserData: User = {
   email: "",
   address: "",
   avatar: "",
-  date_of_birth: null,
+  date_of_birth: "",
   description: "",
 };
