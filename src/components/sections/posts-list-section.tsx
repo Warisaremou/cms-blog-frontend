@@ -20,16 +20,20 @@ export default function PostsListSection({ searchKey, isLoading, posts }: Props)
       ) : (
         <>
           {/* Posts List */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts.data
-              ?.filter((post) => post.title.toLowerCase().includes(searchKey.toLowerCase()))
-              .map((post) => (
-                <PostCard
-                  key={post.id_post}
-                  post={post}
-                />
-              ))}
-          </div>
+          {posts.data.length <= 0 ? (
+            <p className="text-center font-bh-medium text-primary/50">Not Post added</p>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {posts.data
+                ?.filter((post) => post.title.toLowerCase().includes(searchKey.toLowerCase()))
+                .map((post) => (
+                  <PostCard
+                    key={post.id_post}
+                    post={post}
+                  />
+                ))}
+            </div>
+          )}
         </>
       )}
     </div>
