@@ -5,7 +5,6 @@ import UserProfileDropdown from "@/components/user-profile-dropdown";
 import { siteConfig } from "@/config/site";
 import { useAuth } from "@/contexts/auth/hook";
 import { routes } from "@/lib/routes";
-import { cn } from "@/lib/utils";
 import { Link, Outlet } from "react-router";
 
 export default function BoardLayout() {
@@ -22,7 +21,7 @@ export default function BoardLayout() {
             <CustomLink
               item={item}
               key={`${index}-${item.title}`}
-              className={cn(item.title === "Home" && "max-md:hidden")}
+              // className={cn(item.title === "Home" && "max-md:hidden")}
             />
           ))}
         </ul>

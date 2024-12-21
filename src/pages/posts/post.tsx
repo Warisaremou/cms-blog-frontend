@@ -59,9 +59,9 @@ export default function Post() {
           <span>Retour</span>
         </Button>
 
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           <h1 className="font-bh-bold text-xl md:text-2xl">{post.title}</h1>
-          <div className="h-auto overflow-hidden rounded-xl">
+          <div className="h-auto overflow-hidden rounded-xl w-full">
             {post.image != "null" ? (
               <img
                 src={post.image}
@@ -69,7 +69,7 @@ export default function Post() {
                 className="size-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
               />
             ) : (
-              <div className="bg-muted-foreground/15 size-full flex items-center justify-center h-64 md:h-96">
+              <div className="bg-muted-foreground/15 flex items-center justify-center h-64 md:h-96 w-full">
                 <Image
                   strokeWidth={1.3}
                   className="size-12 text-muted-foreground transition-transform duration-700 ease-in-out group-hover:scale-110"
