@@ -2,6 +2,7 @@ import CommentsList from "@/components/comments/comment-list";
 import CommentForm from "@/components/forms/comments-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formateDate } from "@/lib/utils";
 import { getPost } from "@/services/posts";
 import { Post as PostType } from "@/types";
@@ -39,7 +40,12 @@ export default function Post() {
   }
 
   if (!post) {
-    return <div className="text-center py-10">Chargement...</div>;
+    return (
+      <div className="board-content grid max-lg:grid-cols-1 grid-cols-3 gap-8 ">
+        <Skeleton className="min-h-[48rem] rounded-xl lg:col-span-2" />
+        <Skeleton className="h-96 rounded-xl" />
+      </div>
+    );
   }
 
   return (
