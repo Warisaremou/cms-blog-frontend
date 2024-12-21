@@ -10,3 +10,8 @@ export async function addComment(comment_data: Comment) {
   const response = await api.post(`/comments`, comment_data);
   return response.data;
 }
+
+export const deleteComment = async (id_comment: number) => {
+  const response = await api.delete(`/comments/${id_comment}`).then((res) => res);
+  return response.data;
+};

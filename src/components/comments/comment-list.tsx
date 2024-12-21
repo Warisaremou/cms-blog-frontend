@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/auth/hook";
 import { useToast } from "@/hooks/use-toast";
-import { getComments } from "@/services/comments";
+import { deleteComment, getComments } from "@/services/comments";
 import { CommentData } from "@/types";
 import UserAvatar from "@/user-avatar";
 import { Trash2 } from "lucide-react";
@@ -10,11 +10,30 @@ import { useEffect, useState } from "react";
 export default function CommentsList({ id_post }: { id_post: string | undefined }) {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  // const [isDeletingComment, setIsDeletingComment] = useState(true);
   const { toast } = useToast();
   const { userData } = useAuth();
 
   const handleDeleteComment = async (id_comment: string) => {
-    console.log(id_comment);
+    // console.log(id_comment);
+    // setIsDeletingComment(true);
+    deleteComment(parseInt(id_comment))
+      .then((response) => {
+        toast({
+          title: response.message,
+        });
+        // setIsDeletingComment(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      })
+      .catch((error) => {
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
+        // setIsDeletingComment(false);
+      });
   };
 
   const fetchComments = async () => {
