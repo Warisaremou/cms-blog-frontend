@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn, formateDate } from "@/lib/utils";
-import { deletePost } from "@/services/posts/hooks";
+import { deletePost } from "@/services/posts";
 import { Post } from "@/types";
 import UserAvatar from "@/user-avatar";
 import { Image, Loader2 } from "lucide-react";
@@ -51,7 +51,7 @@ export default function PostCard({ post, withAction = false }: Props) {
       )}
     >
       <div className="h-56 overflow-hidden rounded-xl">
-        {post.image ? (
+        {post.image != "null" ? (
           <img
             src={post.image}
             alt="Blog Image"
@@ -90,7 +90,7 @@ export default function PostCard({ post, withAction = false }: Props) {
             />
             <span className="font-bh-medium">{post.user.username}</span>
           </div>
-          <span>{formateDate(post.created_at.toLocaleString())}</span>
+          <span className="text-sm">{formateDate(post.created_at.toLocaleString())}</span>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import PostCard from "@/components/cards/post-card";
 import { PostLoader } from "@/components/loaders";
 import { useToast } from "@/hooks/use-toast";
-import { getAllPostsByUser } from "@/services/posts/hooks";
+import { getAllPostsByUser } from "@/services/posts";
 import { PostList } from "@/types";
 import { useEffect, useState } from "react";
 

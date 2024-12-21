@@ -72,7 +72,7 @@ export type addPostCredentials = z.infer<typeof addPostSchema>;
 
 export interface Post {
   id_post: string;
-  image: string | null;
+  image: string;
   title: string;
   content: string;
   categories: Category[];
@@ -103,4 +103,5 @@ export interface CommentData {
   content: string;
   created_at: Date;
   id_user: string;
+  user: User;
 }

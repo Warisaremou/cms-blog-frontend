@@ -1,38 +1,30 @@
 import CommentsList from "@/components/comments/comment-list";
 import CommentForm from "@/components/forms/comments-form";
-import PostActionSection from "@/components/sections/post-action-section";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MoveLeft } from "lucide-react";
+import { formateDate } from "@/lib/utils";
+import { getPost } from "@/services/posts";
+import { Post as PostType } from "@/types";
+import UserAvatar from "@/user-avatar";
+import { Image, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 export default function Post() {
   const { id_post } = useParams();
   const navigate = useNavigate();
-
-  const [post, setPost] = useState<{
-    title: string;
-    content: string;
-    image: string;
-    author?: string;
-    created_at?: string;
-  } | null>(null);
-
+  const [post, setPost] = useState<PostType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/posts/${id_post}`);
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération du post");
-        }
-        const data = await response.json();
-        setPost(data);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        setError(err.message || "Une erreur inconnue s'est produite");
-      }
+      getPost(id_post!)
+        .then((response) => {
+          setPost(response);
+        })
+        .catch((error) => {
+          setError(error.response.data.message ?? error.message);
+        });
     };
 
     fetchPost();
@@ -42,12 +34,6 @@ export default function Post() {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <p className="text-red-500 font-semibold text-lg">{error}</p>
-        <Button
-          onClick={() => navigate(-1)}
-          className="mt-4"
-        >
-          Retour
-        </Button>
       </div>
     );
   }
@@ -57,50 +43,75 @@ export default function Post() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row lg:gap-8 lg:items-start h-full">
+    <div className="flex flex-col lg:flex-row gap-8 lg:items-start board-content">
       {/* Section principale : Détails du post */}
-      <div className="flex-1 bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
-        <div>
-          <Button
-            variant="link"
-            className="space-x-2 text-accent-foreground items-center"
-            onClick={() => navigate(-1)}
-          >
-            <MoveLeft
-              strokeWidth={1.5}
-              className="size-5"
-            />
-            <span>Retour</span>
-          </Button>
+      <div className="flex-1 bg-background flex flex-col gap-3 items-start">
+        <Button
+          variant="link"
+          className="space-x-2 p-0 text-accent-foreground items-center"
+          onClick={() => navigate(-1)}
+        >
+          <MoveLeft
+            strokeWidth={1.5}
+            className="size-5"
+          />
+          <span>Retour</span>
+        </Button>
 
-          <h1 className="font-bold text-2xl">{post.title || "Titre non disponible"}</h1>
+        <div className="space-y-4">
+          <h1 className="font-bh-bold text-xl md:text-2xl">{post.title}</h1>
+          <div className="h-auto overflow-hidden rounded-xl">
+            {post.image != "null" ? (
+              <img
+                src={post.image}
+                alt="Blog Image"
+                className="size-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+              />
+            ) : (
+              <div className="bg-muted-foreground/15 size-full flex items-center justify-center h-64 md:h-96">
+                <Image
+                  strokeWidth={1.3}
+                  className="size-12 text-muted-foreground transition-transform duration-700 ease-in-out group-hover:scale-110"
+                />
+              </div>
+            )}
+          </div>
 
-          {post.image ? (
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-auto my-4 rounded-lg shadow-md"
-            />
-          ) : (
-            <div className="text-gray-500 italic">Image non disponible</div>
-          )}
+          <p className="text-xs md:text-sm lg:text-base font-bh-medium text-primary/60">{post.content}</p>
 
-          <p className="text-lg text-gray-700 my-4">{post.content || "Contenu non disponible."}</p>
-
-          {post.author && post.created_at && (
-            <div className="text-sm text-gray-500">
-              <p>Par : {post.author}</p>
-              <p>Publié le : {new Date(post.created_at).toLocaleDateString()}</p>
+          {post.user && (
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1.5">
+                <UserAvatar
+                  avatar={post.user.avatar}
+                  firstname={post.user.firstname}
+                  surname={post.user.surname}
+                />
+                <span className="text-sm font-bh-medium">{post.user.username}</span>
+              </div>
+              <span className="text-sm font-bh-medium text-primary/50">
+                Published on: {formateDate(post.created_at.toLocaleString())}
+              </span>
             </div>
           )}
+
+          <div className="flex flex-wrap items-center gap-1">
+            {post.categories.map((category) => (
+              <Badge
+                key={category.id_category}
+                variant="secondary"
+              >
+                {category.name}
+              </Badge>
+            ))}
+          </div>
         </div>
-        <PostActionSection />
       </div>
 
       {/* Section latérale : Commentaires */}
       <div className="bg-background border border-accent w-full lg:w-1/3 p-4 rounded-lg flex flex-col gap-5">
         {/* Liste des commentaires */}
-        <h2 className="font-bold text-xl">Commentaires</h2>
+        <h2 className="font-bold text-xl">Comments</h2>
         <CommentsList id_post={id_post} />
         <CommentForm />
       </div>

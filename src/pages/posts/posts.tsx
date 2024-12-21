@@ -2,7 +2,7 @@ import Header from "@/components/header";
 import { Searchbar } from "@/components/searchbar";
 import PostsListSection from "@/components/sections/posts-list-section";
 import { useToast } from "@/hooks/use-toast";
-import { getAllPosts } from "@/services/posts/hooks";
+import { getAllPosts } from "@/services/posts";
 import { PostList } from "@/types";
 import { useEffect, useState } from "react";
 

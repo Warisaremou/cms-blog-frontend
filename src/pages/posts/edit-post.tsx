@@ -1,26 +1,30 @@
 import { AddEditPostForm } from "@/components/forms";
-import api from "@/lib/axios-instance";
+import { useToast } from "@/hooks/use-toast";
+import { getPost } from "@/services/posts";
 import { Post } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 export default function EditPost() {
   const { id_post } = useParams();
+  const { toast } = useToast();
   const [postData, setPostData] = useState<Post | null>(null);
 
-  async function getPost() {
-    await api
-      .get(`/posts/${id_post}`)
+  async function getPostData() {
+    await getPost(id_post!)
       .then((res) => {
-        setPostData(res.data);
+        setPostData(res);
       })
       .catch((error) => {
-        console.error(error);
+        toast({
+          variant: "destructive",
+          title: error.response.data.message ?? error.message,
+        });
       });
   }
 
   useEffect(() => {
-    getPost();
+    getPostData();
   }, []);
 
   return (

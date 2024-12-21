@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { addPostSchema } from "@/lib/validations/post";
-import { addPost, editpost } from "@/services/posts/hooks";
+import { addPost, editpost } from "@/services/posts";
 import { addPostCredentials, Post } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagePlus, Loader2 } from "lucide-react";

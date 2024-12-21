@@ -1,22 +1,27 @@
+import { useToast } from "@/hooks/use-toast";
 import { getComments } from "@/services/comments";
 import { CommentData } from "@/types";
+import UserAvatar from "@/user-avatar";
 import { useEffect, useState } from "react";
 
 export default function CommentsList({ id_post }: { id_post: string | undefined }) {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   const fetchComments = async () => {
     setIsLoading(true);
     if (id_post) {
       getComments(parseInt(id_post))
         .then((response) => {
-          console.log(response);
           setComments(response.data);
           setIsLoading(false);
         })
         .catch((error) => {
-          console.log(error);
+          toast({
+            variant: "destructive",
+            title: error.response.data.message ?? error.message,
+          });
           setIsLoading(false);
         });
     }
@@ -35,13 +40,18 @@ export default function CommentsList({ id_post }: { id_post: string | undefined 
           {comments.map((comment) => (
             <div
               key={comment.id_comment}
-              className="border border-slate-200/50 bg-background rounded-lg p-2.5"
+              className="border border-slate-200/50 bg-background rounded-xl p-2.5 flex items-start gap-2"
             >
-              <p className="text-sm">{comment.content}</p>
-              {/* <p>
-                <strong>{comment.author}</strong>: {comment.content}
-              </p> */}
-              {/* <p className="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleString()}</p> */}
+              <UserAvatar
+                avatar={comment.user.avatar}
+                firstname={comment.user.firstname}
+                surname={comment.user.surname}
+                className="size-7 text-xs font-bh-semibold"
+              />
+              <div className="flex-1 flex flex-col gap-1">
+                <span className="font-bh-medium text-sm">{comment.user.username}</span>
+                <p className="text-sm">{comment.content}</p>
+              </div>
             </div>
           ))}
         </div>
