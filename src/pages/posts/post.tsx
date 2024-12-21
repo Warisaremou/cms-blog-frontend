@@ -61,15 +61,15 @@ export default function Post() {
 
         <div className="space-y-4 w-full">
           <h1 className="font-bh-bold text-xl md:text-2xl">{post.title}</h1>
-          <div className="h-auto overflow-hidden rounded-xl w-full">
+          <div className="aspect-[5/4] overflow-hidden rounded-xl w-full">
             {post.image != "null" ? (
               <img
                 src={post.image}
                 alt="Blog Image"
-                className="size-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                className="size-full object-center object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
               />
             ) : (
-              <div className="bg-muted-foreground/15 flex items-center justify-center h-64 md:h-96 w-full">
+              <div className="bg-muted-foreground/15 flex items-center justify-center size-full">
                 <Image
                   strokeWidth={1.3}
                   className="size-12 text-muted-foreground transition-transform duration-700 ease-in-out group-hover:scale-110"
