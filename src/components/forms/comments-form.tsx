@@ -31,7 +31,6 @@ export default function CommentForm() {
       id_post: 0,
       content: "",
     },
-    mode: "all",
   });
 
   useEffect(() => {
