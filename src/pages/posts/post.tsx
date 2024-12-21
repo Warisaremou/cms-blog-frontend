@@ -78,7 +78,7 @@ export default function Post() {
             )}
           </div>
 
-          <p className="text-xs md:text-sm lg:text-base font-bh-medium text-primary/60">{post.content}</p>
+          <p className="text-sm lg:text-base text-primary/60">{post.content}</p>
 
           {post.user && (
             <div className="flex flex-col gap-1">
