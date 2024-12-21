@@ -16,7 +16,7 @@ export default function Home() {
         description="Discover inspiring articles, practical tips, and expert advice. Share your ideas, connect with enthusiasts, and stay updated with our latest posts by subscribing today!"
       >
         <Button
-          className="border gap-1.5 border-muted-foreground/15 max-sm:hidden"
+          className="border gap-1.5 border-muted-foreground/15"
           onClick={() => navigate(`/${isAuthenticated ? `posts/${routes.posts.addPost}` : routes.auth.login}`)}
         >
           <JoinUsIcon />
