@@ -75,5 +75,6 @@ export const updateProfileSchema = z.object({
     message: "Firstname must have at leat 3 characters",
   }),
   address: z.string().optional(),
+  date_of_birth: z.date().nullable(),
   description: z.string().optional(),
 });

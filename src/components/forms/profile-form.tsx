@@ -30,6 +30,7 @@ export default function ProfileForm() {
       firstname: "",
       surname: "",
       address: "",
+      date_of_birth: null,
       description: "",
     },
     mode: "all",
