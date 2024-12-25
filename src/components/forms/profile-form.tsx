@@ -30,7 +30,6 @@ export default function ProfileForm() {
       firstname: "",
       surname: "",
       address: "",
-      date_of_birth: null,
       description: "",
     },
     mode: "all",
@@ -42,7 +41,6 @@ export default function ProfileForm() {
         firstname: userData.firstname,
         surname: userData.surname,
         address: userData.address ?? "",
-        date_of_birth: null,
         description: userData.description ?? "",
       });
     };
