@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn, formateDate } from "@/lib/utils";
@@ -8,7 +9,6 @@ import UserAvatar from "@/user-avatar";
 import { Image, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Button } from "../ui/button";
 
 type Props = {
   post: Post;

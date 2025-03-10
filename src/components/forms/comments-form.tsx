@@ -5,15 +5,20 @@ import { useAuth } from "@/contexts/auth/hook";
 import { useToast } from "@/hooks/use-toast"; // Schéma de validation Zod
 import { routes } from "@/lib/routes";
 import { commentSchema } from "@/lib/validations/comment";
-import { addComment } from "@/services/comments";
-import { Comment } from "@/types";
+import { addComment, updateComment } from "@/services/comments";
+import { Comment, EditCommentPayload } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 
-export default function CommentForm() {
+type Props = {
+  isUpdate: boolean;
+  comment: EditCommentPayload | null;
+};
+
+export default function CommentForm({ isUpdate, comment }: Props) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { id_post } = useParams();
@@ -37,30 +42,52 @@ export default function CommentForm() {
     const fecthData = async () => {
       reset({
         id_post: parseInt(id_post!),
+        content: comment?.content ?? "",
       });
     };
     fecthData();
-  }, [reset]);
+  }, [reset, comment]);
 
   const onSubmit = async (data: Comment) => {
     setIsLoading(true);
-    await addComment(data)
-      .then((response) => {
-        toast({
-          title: response.message,
+
+    if (isUpdate && comment) {
+      await updateComment(parseInt(comment.id_comment!), data.content)
+        .then((response) => {
+          toast({
+            title: response.message,
+          });
+          setIsLoading(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: error.response.data.message ?? error.message,
+          });
+          setIsLoading(false);
         });
-        setIsLoading(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      })
-      .catch((error) => {
-        toast({
-          variant: "destructive",
-          title: error.response.data.message ?? error.message,
+    } else {
+      await addComment(data)
+        .then((response) => {
+          toast({
+            title: response.message,
+          });
+          setIsLoading(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        })
+        .catch((error) => {
+          toast({
+            variant: "destructive",
+            title: error.response.data.message ?? error.message,
+          });
+          setIsLoading(false);
         });
-        setIsLoading(false);
-      });
+    }
   };
 
   return (
@@ -98,7 +125,7 @@ export default function CommentForm() {
             aria-hidden="true"
           />
         )}
-        Add Comment
+        {isUpdate ? "Update" : "Add"} Comment
       </Button>
     </form>
   );

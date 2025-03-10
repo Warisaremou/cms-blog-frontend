@@ -46,6 +46,7 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   userData: User;
+  isLoading: boolean;
 }
 
 export type registerCredentials = z.infer<typeof registerSchema>;
@@ -104,4 +105,9 @@ export interface CommentData {
   created_at: Date;
   id_user: string;
   user: User;
+}
+
+export interface EditCommentPayload {
+  id_comment: string;
+  content: string;
 }

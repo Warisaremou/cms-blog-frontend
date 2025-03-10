@@ -15,3 +15,10 @@ export const deleteComment = async (id_comment: number) => {
   const response = await api.delete(`/comments/${id_comment}`).then((res) => res);
   return response.data;
 };
+
+export const updateComment = async (id_comment: number, content: string) => {
+  const response = await api.patch(`/comments/${id_comment}`, {
+    content,
+  });
+  return response.data;
+};

@@ -1,6 +1,7 @@
 import CustomLink from "@/components/custom-link";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import UserProfileDropdown from "@/components/user-profile-dropdown";
 import { siteConfig } from "@/config/site";
 import { useAuth } from "@/contexts/auth/hook";
@@ -8,7 +9,7 @@ import { routes } from "@/lib/routes";
 import { Link, Outlet } from "react-router";
 
 export default function BoardLayout() {
-  const { isAuthenticated, userData } = useAuth();
+  const { isAuthenticated, isLoading, userData } = useAuth();
 
   return (
     <div className="container flex flex-col min-h-screen w-full">
@@ -21,12 +22,13 @@ export default function BoardLayout() {
             <CustomLink
               item={item}
               key={`${index}-${item.title}`}
-              // className={cn(item.title === "Home" && "max-md:hidden")}
             />
           ))}
         </ul>
 
-        {isAuthenticated ? (
+        {isLoading ? (
+          <Skeleton className="size-10 border-2 rounded-full shrink-0" />
+        ) : isAuthenticated ? (
           <div className="flex gap-2">
             <Button
               variant="default"

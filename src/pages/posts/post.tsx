@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formateDate } from "@/lib/utils";
 import { getPost } from "@/services/posts";
-import { Post as PostType } from "@/types";
+import { EditCommentPayload, Post as PostType } from "@/types";
 import UserAvatar from "@/user-avatar";
 import { Image, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -15,7 +15,9 @@ export default function Post() {
   const { id_post } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState<PostType | null>(null);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [comment, setComment] = useState<EditCommentPayload | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -45,7 +47,7 @@ export default function Post() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:items-start board-content">
-      {/* Section principale : Détails du post */}
+      {/* Post details */}
       <div className="flex-1 bg-background flex flex-col gap-3 items-start">
         <Button
           variant="link"
@@ -109,12 +111,18 @@ export default function Post() {
         </div>
       </div>
 
-      {/* Section latérale : Commentaires */}
-      <div className="bg-background border border-accent w-full lg:w-1/3 p-4 rounded-lg flex flex-col gap-5">
-        {/* Liste des commentaires */}
+      {/* Comments section */}
+      <div className="bg-background border border-accent w-full lg:w-1/3 p-4 rounded-lg flex flex-col gap-4">
         <h2 className="font-bold text-xl">Comments</h2>
-        <CommentsList id_post={id_post} />
-        <CommentForm />
+        <CommentsList
+          id_post={id_post!}
+          setComment={setComment}
+          setIsUpdate={setIsUpdate}
+        />
+        <CommentForm
+          isUpdate={isUpdate}
+          comment={comment}
+        />
       </div>
     </div>
   );
