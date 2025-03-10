@@ -10,7 +10,7 @@ const { getItem } = useLocalStorage();
 const accessToken = getItem("accessToken");
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL!,
   headers: {
     "Content-Type": "application/json",
   },
@@ -34,9 +34,9 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       // console.error("Expired token");
-      // TODO: add refresh token later
+      // TODO: Add refresh token later
       if (typeof window !== "undefined") {
-        window.location.href = `/${routes.auth.login}`; // Adjust the login path as needed
+        window.location.href = `/${routes.auth.login}`;
       }
     }
 

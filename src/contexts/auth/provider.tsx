@@ -6,23 +6,26 @@ import { User } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<User>(defaultUserData);
   const { getItem } = useLocalStorage();
   const accessToken = getItem("accessToken");
 
   useEffect(() => {
     if (accessToken) {
-      setIsAuthenticated(true);
       getUserData()
         .then((response) => {
           setUserData(response);
+          setIsAuthenticated(true);
+          setIsLoading(false);
         })
         .catch(() => {
-          // TODO: To be reviewed
-          // removeItem("accessToken");
-          //  setIsAuthenticated(false);
+          setIsAuthenticated(false);
         });
+    } else {
+      setIsAuthenticated(false);
+      setIsLoading(false);
     }
   }, [accessToken]);
 
@@ -32,6 +35,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated,
         setIsAuthenticated,
         userData,
+        isLoading,
       }}
     >
       {children}

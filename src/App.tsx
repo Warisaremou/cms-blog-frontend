@@ -2,6 +2,7 @@ import { AuthLayout, BoardLayout, ProfileLayout } from "@/components/layouts";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/contexts/auth/provider";
 import CategoriesProvider from "@/contexts/categories/provider";
+import AuthGuard from "@/guard/auth";
 import { routes } from "@/lib/routes";
 import { Home, NotFound } from "@/pages";
 import { ForgotPassword, Login, Register, ResetPassword } from "@/pages/auth";
@@ -32,27 +33,31 @@ function App() {
                   path={routes.posts.getPost}
                   element={<Post />}
                 />
-                <Route
-                  path={routes.posts.addPost}
-                  element={<AddPost />}
-                />
-                <Route
-                  path={routes.posts.editPost}
-                  element={<EditPost />}
-                />
+                <Route element={<AuthGuard />}>
+                  <Route
+                    path={routes.posts.addPost}
+                    element={<AddPost />}
+                  />
+                  <Route
+                    path={routes.posts.editPost}
+                    element={<EditPost />}
+                  />
+                </Route>
               </Route>
-              <Route
-                path={routes.profile.index}
-                element={<ProfileLayout />}
-              >
+              <Route element={<AuthGuard />}>
                 <Route
-                  index
-                  element={<Profile />}
-                />
-                <Route
-                  path={routes.profile.posts}
-                  element={<MyPosts />}
-                />
+                  path={routes.profile.index}
+                  element={<ProfileLayout />}
+                >
+                  <Route
+                    index
+                    element={<Profile />}
+                  />
+                  <Route
+                    path={routes.profile.posts}
+                    element={<MyPosts />}
+                  />
+                </Route>
               </Route>
             </Route>
             <Route element={<AuthLayout />}>
