@@ -71,9 +71,7 @@ export default function MyPosts() {
               ))
             ) : (
               <div className="flex flex-col p-2 items-center gap-4 col-span-2">
-                <p className="text-primary/50 text-center text-sm font-bh-medium">
-                  You have not shared any post yet. Share your first post now!
-                </p>
+                <p className="text-primary/50 text-center text-sm font-bh-medium">You have not shared any post yet</p>
                 <Button variant="default">
                   <Link to={`/posts/${routes.posts.addPost}`}>Share a Post</Link>
                 </Button>
