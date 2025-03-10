@@ -102,7 +102,7 @@ export default function CommentsList({ id_post, setComment, setIsUpdate }: Props
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent
-                        className="w-52 flex flex-col gap-1"
+                        className="w-48 flex flex-col gap-1"
                         align="end"
                         forceMount
                       >

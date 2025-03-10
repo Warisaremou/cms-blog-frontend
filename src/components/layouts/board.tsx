@@ -33,6 +33,7 @@ export default function BoardLayout() {
             <Button
               variant="default"
               asChild
+              className="max-md:hidden"
             >
               <Link to={`/posts/${routes.posts.addPost}`}>Share a Post</Link>
             </Button>
