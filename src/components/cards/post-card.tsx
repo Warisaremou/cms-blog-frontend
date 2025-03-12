@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { usePosts } from "@/contexts/posts/hook";
 import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn, formateDate } from "@/lib/utils";
@@ -19,6 +20,7 @@ export default function PostCard({ post, withAction = false }: Props) {
   const { toast } = useToast();
   const [isDeletingPost, setIsDeletingPost] = useState(false);
   const navigate = useNavigate();
+  const { refresh } = usePosts();
 
   const handlePostDelete = (id_post: string) => {
     setIsDeletingPost(true);
@@ -28,9 +30,7 @@ export default function PostCard({ post, withAction = false }: Props) {
           title: response.message,
         });
         setIsDeletingPost(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        refresh();
       })
       .catch((error) => {
         toast({

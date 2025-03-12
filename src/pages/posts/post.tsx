@@ -18,6 +18,11 @@ export default function Post() {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [comment, setComment] = useState<EditCommentPayload | null>(null);
+  const [refetchComments, setRefetchComments] = useState(false);
+
+  const refresh = () => {
+    setRefetchComments((prev) => !prev);
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -118,10 +123,14 @@ export default function Post() {
           id_post={id_post!}
           setComment={setComment}
           setIsUpdate={setIsUpdate}
+          refetchComments={refetchComments}
+          refresh={refresh}
         />
         <CommentForm
           isUpdate={isUpdate}
           comment={comment}
+          refresh={refresh}
+          setIsUpdate={setIsUpdate}
         />
       </div>
     </div>

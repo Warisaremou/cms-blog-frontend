@@ -47,6 +47,7 @@ export interface AuthContextType {
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   userData: User;
   isLoading: boolean;
+  refresh: () => void;
 }
 
 export type registerCredentials = z.infer<typeof registerSchema>;

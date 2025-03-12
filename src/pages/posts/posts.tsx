@@ -1,42 +1,12 @@
 import Header from "@/components/header";
 import { Searchbar } from "@/components/searchbar";
 import PostsListSection from "@/components/sections/posts-list-section";
-import { useToast } from "@/hooks/use-toast";
-import { getAllPosts } from "@/services/posts";
-import { PostList } from "@/types";
-import { useEffect, useState } from "react";
+import { usePosts } from "@/contexts/posts/hook";
+import { useState } from "react";
 
 export default function Posts() {
-  const { toast } = useToast();
   const [searchKey, setSearchKey] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState<PostList>({
-    data: [],
-    meta: {
-      page: 1,
-      per_page: 6,
-    },
-  });
-
-  function fetchPosts() {
-    getAllPosts()
-      .then((response) => {
-        setPosts(response);
-        setIsLoading(false);
-        // setTimeout(() => {}, 2000);
-      })
-      .catch((error) => {
-        toast({
-          variant: "destructive",
-          title: error.response.data.message ?? error.message,
-        });
-        setIsLoading(false);
-      });
-  }
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const { isLoading, posts } = usePosts();
 
   return (
     <div className="board-content flex-1 max-lg:space-y-5 space-y-10">
