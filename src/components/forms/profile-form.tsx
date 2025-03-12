@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 
 export default function ProfileForm() {
   const { toast } = useToast();
-  const { userData } = useAuth();
+  const { userData, refresh } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -36,8 +36,8 @@ export default function ProfileForm() {
   });
 
   useEffect(() => {
-    const fecthData = async () => {
-      await reset({
+    const fecthData = () => {
+      reset({
         firstname: userData.firstname,
         surname: userData.surname,
         address: userData.address ?? "",
@@ -56,9 +56,7 @@ export default function ProfileForm() {
           title: "Profile updated successfully",
         });
         setIsLoading(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        refresh();
       })
       .catch((error) => {
         toast({
@@ -72,7 +70,10 @@ export default function ProfileForm() {
   return (
     <div className="space-y-5">
       {/* User avatar */}
-      <AvatarUpload userData={userData} />
+      <AvatarUpload
+        userData={userData}
+        refresh={refresh}
+      />
 
       {/* Form */}
       <form

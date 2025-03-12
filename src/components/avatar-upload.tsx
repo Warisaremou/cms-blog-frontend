@@ -6,7 +6,12 @@ import UserAvatar from "@/user-avatar";
 import { Loader2 } from "lucide-react";
 import { ChangeEvent, useRef, useState } from "react";
 
-export default function AvatarUpload({ userData }: { userData: User }) {
+type Props = {
+  userData: User;
+  refresh?: () => void;
+};
+
+export default function AvatarUpload({ userData, refresh }: Props) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -29,9 +34,7 @@ export default function AvatarUpload({ userData }: { userData: User }) {
             title: "Avatar updated successfully",
           });
           setIsLoading(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          refresh();
         })
         .catch((error) => {
           toast({

@@ -1,9 +1,11 @@
 import InputError from "@/components/input-error";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCategories } from "@/contexts/categories/hook";
+import { usePosts } from "@/contexts/posts/hook";
 import { useToast } from "@/hooks/use-toast";
 import { routes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -15,13 +17,13 @@ import { ImagePlus, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { Badge } from "../ui/badge";
 
 export default function AddEditPostForm({ postData }: { postData?: Post | null }) {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { isLoadingCategories, categories } = useCategories();
+  const { refresh } = usePosts();
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   const {
@@ -84,6 +86,7 @@ export default function AddEditPostForm({ postData }: { postData?: Post | null }
             title: response.message,
           });
           setIsLoading(false);
+          refresh();
           setTimeout(() => {
             navigate(`/${routes.posts.index}`);
           }, 1500);
@@ -102,6 +105,7 @@ export default function AddEditPostForm({ postData }: { postData?: Post | null }
             title: response.message,
           });
           setIsLoading(false);
+          refresh();
           setTimeout(() => {
             navigate(`/${routes.posts.index}`);
           }, 1500);
