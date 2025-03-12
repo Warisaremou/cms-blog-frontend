@@ -9,16 +9,18 @@ import { addComment, updateComment } from "@/services/comments";
 import { Comment, EditCommentPayload } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 
 type Props = {
   isUpdate: boolean;
   comment: EditCommentPayload | null;
+  refresh: () => void;
+  setIsUpdate: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function CommentForm({ isUpdate, comment }: Props) {
+export default function CommentForm({ isUpdate, comment, refresh, setIsUpdate }: Props) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { id_post } = useParams();
@@ -58,9 +60,11 @@ export default function CommentForm({ isUpdate, comment }: Props) {
             title: response.message,
           });
           setIsLoading(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+          setIsUpdate(false);
+          reset({
+            content: "",
+          });
+          refresh();
         })
         .catch((error) => {
           toast({
@@ -76,9 +80,7 @@ export default function CommentForm({ isUpdate, comment }: Props) {
             title: response.message,
           });
           setIsLoading(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+          refresh();
         })
         .catch((error) => {
           toast({

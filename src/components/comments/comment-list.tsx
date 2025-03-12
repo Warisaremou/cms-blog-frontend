@@ -12,9 +12,11 @@ type Props = {
   id_post: string;
   setComment: Dispatch<SetStateAction<EditCommentPayload | null>>;
   setIsUpdate: Dispatch<SetStateAction<boolean>>;
+  refetchComments: boolean;
+  refresh: () => void;
 };
 
-export default function CommentsList({ id_post, setComment, setIsUpdate }: Props) {
+export default function CommentsList({ id_post, setComment, setIsUpdate, refetchComments, refresh }: Props) {
   const [comments, setComments] = useState<CommentData[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -27,9 +29,7 @@ export default function CommentsList({ id_post, setComment, setIsUpdate }: Props
         toast({
           title: response.message,
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        refresh();
       })
       .catch((error) => {
         toast({
@@ -59,7 +59,7 @@ export default function CommentsList({ id_post, setComment, setIsUpdate }: Props
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [refetchComments]);
 
   return (
     <div>

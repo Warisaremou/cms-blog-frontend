@@ -11,6 +11,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<User>(defaultUserData);
   const { getItem } = useLocalStorage();
   const accessToken = getItem("accessToken");
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     if (accessToken) {
@@ -27,7 +28,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(false);
       setIsLoading(false);
     }
-  }, [accessToken]);
+  }, [accessToken, refetch]);
+
+  const refresh = () => {
+    setRefetch((prev) => !prev);
+  };
 
   return (
     <AuthContext.Provider
@@ -36,6 +41,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setIsAuthenticated,
         userData,
         isLoading,
+        refresh,
       }}
     >
       {children}

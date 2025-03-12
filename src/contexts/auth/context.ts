@@ -7,6 +7,7 @@ const AuthContext = createContext<AuthContextType>({
   setIsAuthenticated: () => {},
   userData: defaultUserData,
   isLoading: true,
+  refresh: () => {},
 });
 
 export { AuthContext };
