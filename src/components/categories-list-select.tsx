@@ -1,7 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { getAllCategories } from "@/services/categories/hooks";
+import { getAllCategories } from "@/services/categories";
 import { CategoryList } from "@/types";
 import { useEffect, useState } from "react";
 

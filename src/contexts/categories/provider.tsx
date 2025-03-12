@@ -1,6 +1,6 @@
 import { CategoriesContext } from "@/contexts/categories/context";
 import { useToast } from "@/hooks/use-toast";
-import { getAllCategories } from "@/services/categories/hooks";
+import { getAllCategories } from "@/services/categories";
 import { CategoryList } from "@/types";
 import { ReactNode, useEffect, useState } from "react";
 
