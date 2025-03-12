@@ -34,7 +34,7 @@ export default function AvatarUpload({ userData, refresh }: Props) {
             title: "Avatar updated successfully",
           });
           setIsLoading(false);
-          refresh();
+          refresh?.();
         })
         .catch((error) => {
           toast({
