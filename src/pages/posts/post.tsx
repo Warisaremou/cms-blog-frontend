@@ -98,7 +98,7 @@ export default function Post() {
                 <span className="text-sm font-bh-medium">{post.user.username}</span>
               </div>
               <span className="text-sm font-bh-medium text-primary/50">
-                Published on: {formateDate(post.created_at.toLocaleString())}
+                Published on: {formateDate(post.created_at)}
               </span>
             </div>
           )}

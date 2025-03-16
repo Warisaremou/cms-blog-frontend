@@ -5,8 +5,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formateDate(dateString: string) {
-  const date = new Date(dateString);
+/**
+ * Function to format date to `day month, year`
+ *
+ * @param {Date} postDate
+ * @returns {string}
+ * @export
+ */
+export function formateDate(postDate: Date): string {
+  const date = new Date(postDate);
 
   const day = date.getDate();
   const month = new Intl.DateTimeFormat("en", { month: "long" }).format(date);
